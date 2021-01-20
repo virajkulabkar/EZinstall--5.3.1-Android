@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorPrimary">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <Button
+            android:id="@+id/tbImgLeft"
+            android:layout_width="@dimen/_25sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:background="@drawable/ic_action_name"/>
+        <TextView
+            android:id="@+id/tbTitleLine1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="Common"
+            android:textColor="@color/colorWhite"
+            android:textSize="16sp" />
+        <ImageView
+            android:id="@+id/tbImgRight"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"
+            android:src="@drawable/help"
+            android:visibility="gone" />
+        <TextView
+            android:id="@+id/tbTextRight"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginRight="8dp"
+            android:gravity="right|center"
+            android:text=""
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/_12sdp"
+            android:visibility="visible" />
+    </FrameLayout>
+</androidx.appcompat.widget.Toolbar>

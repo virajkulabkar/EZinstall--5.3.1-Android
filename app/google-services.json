@@ -1,0 +1,511 @@
+{
+  "project_info": {
+    "project_number": "22996382747",
+    "firebase_url": "https://cl-apps-2ce5f.firebaseio.com",
+    "project_id": "cl-apps-2ce5f",
+    "storage_bucket": "cl-apps-2ce5f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:22996382747:android:d10ae86adec2437d",
+        "android_client_info": {
+          "package_name": "com.CL.bluelight"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "22996382747-2dgkmcb1pmt8776mi1l099hb9vv2qqdg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.CL.bluelight",
+            "certificate_hash": "5486df54e0164c7afdf094cc1cb08b750cd845ef"
+          }
+        },
+        {
+          "client_id": "22996382747-454bque0b9ctuepggmb1qvkuiuef1lok.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCy5K24XBzn4LhuZJyVHVxWnAmNqIDhI94"
+        },
+        {
+          "current_key": "AIzaSyB538Xu-8rjxU-orj6t4enqZPXQ97RLpOs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "22996382747-454bque0b9ctuepggmb1qvkuiuef1lok.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "22996382747-031ddkmgr1u1lnla6t8jlpqm0mfrehvl.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.Cimcon.Internal"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:22996382747:android:1743828b8ba9e238",
+        "android_client_info": {
+          "package_name": "com.CL.campussecurity"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "22996382747-ua9tqu2er5qs1nv7fduu2d42oj9rafhr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.CL.campussecurity",
+            "certificate_hash": "5486df54e0164c7afdf094cc1cb08b750cd845ef"
+          }
+        },
+        {
+          "client_id": "22996382747-454bque0b9ctuepggmb1qvkuiuef1lok.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCy5K24XBzn4LhuZJyVHVxWnAmNqIDhI94"
+        },
+        {
+          "current_key": "AIzaSyB538Xu-8rjxU-orj6t4enqZPXQ97RLpOs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "22996382747-454bque0b9ctuepggmb1qvkuiuef1lok.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "22996382747-031ddkmgr1u1lnla6t8jlpqm0mfrehvl.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.Cimcon.Internal"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:22996382747:android:dcca4aca3565cef0beb4be",
+        "android_client_info": {
+          "package_name": "com.CL.firstresponder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "22996382747-454bque0b9ctuepggmb1qvkuiuef1lok.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCy5K24XBzn4LhuZJyVHVxWnAmNqIDhI94"
+        },
+        {
+          "current_key": "AIzaSyB538Xu-8rjxU-orj6t4enqZPXQ97RLpOs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "22996382747-454bque0b9ctuepggmb1qvkuiuef1lok.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "22996382747-031ddkmgr1u1lnla6t8jlpqm0mfrehvl.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.Cimcon.Internal"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:22996382747:android:f08f1b8954d5d310beb4be",
+        "android_client_info": {
+          "package_name": "com.CL.parksafety"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "22996382747-454bque0b9ctuepggmb1qvkuiuef1lok.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCy5K24XBzn4LhuZJyVHVxWnAmNqIDhI94"
+        },
+        {
+          "current_key": "AIzaSyB538Xu-8rjxU-orj6t4enqZPXQ97RLpOs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "22996382747-454bque0b9ctuepggmb1qvkuiuef1lok.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "22996382747-031ddkmgr1u1lnla6t8jlpqm0mfrehvl.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.Cimcon.Internal"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:22996382747:android:9f7e153be2e43a6fbeb4be",
+        "android_client_info": {
+          "package_name": "com.CL.parksecurity"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "22996382747-454bque0b9ctuepggmb1qvkuiuef1lok.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCy5K24XBzn4LhuZJyVHVxWnAmNqIDhI94"
+        },
+        {
+          "current_key": "AIzaSyB538Xu-8rjxU-orj6t4enqZPXQ97RLpOs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "22996382747-454bque0b9ctuepggmb1qvkuiuef1lok.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "22996382747-031ddkmgr1u1lnla6t8jlpqm0mfrehvl.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.Cimcon.Internal"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:22996382747:android:1c77a4e9e4a4d4b3",
+        "android_client_info": {
+          "package_name": "com.CL.slcscanner"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "22996382747-454bque0b9ctuepggmb1qvkuiuef1lok.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCy5K24XBzn4LhuZJyVHVxWnAmNqIDhI94"
+        },
+        {
+          "current_key": "AIzaSyB538Xu-8rjxU-orj6t4enqZPXQ97RLpOs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "22996382747-454bque0b9ctuepggmb1qvkuiuef1lok.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "22996382747-031ddkmgr1u1lnla6t8jlpqm0mfrehvl.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.Cimcon.Internal"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:22996382747:android:2dcdd8f419cdca29beb4be",
+        "android_client_info": {
+          "package_name": "com.cimcon.nearsky360"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "22996382747-mpfmcmsmikq4vcnfrmi1ngpfu5n29v49.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cimcon.nearsky360",
+            "certificate_hash": "10082113ff6de96d78e025a57d6f6c11ee34e493"
+          }
+        },
+        {
+          "client_id": "22996382747-454bque0b9ctuepggmb1qvkuiuef1lok.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCy5K24XBzn4LhuZJyVHVxWnAmNqIDhI94"
+        },
+        {
+          "current_key": "AIzaSyB538Xu-8rjxU-orj6t4enqZPXQ97RLpOs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "22996382747-454bque0b9ctuepggmb1qvkuiuef1lok.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "22996382747-031ddkmgr1u1lnla6t8jlpqm0mfrehvl.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.Cimcon.Internal"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:22996382747:android:5265c4c4fd565452beb4be",
+        "android_client_info": {
+          "package_name": "com.cl.cimconez"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "22996382747-454bque0b9ctuepggmb1qvkuiuef1lok.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCy5K24XBzn4LhuZJyVHVxWnAmNqIDhI94"
+        },
+        {
+          "current_key": "AIzaSyB538Xu-8rjxU-orj6t4enqZPXQ97RLpOs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "22996382747-454bque0b9ctuepggmb1qvkuiuef1lok.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "22996382747-031ddkmgr1u1lnla6t8jlpqm0mfrehvl.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.Cimcon.Internal"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:22996382747:android:56016a7cd22f3711beb4be",
+        "android_client_info": {
+          "package_name": "com.cl.cimconlg"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "22996382747-454bque0b9ctuepggmb1qvkuiuef1lok.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCy5K24XBzn4LhuZJyVHVxWnAmNqIDhI94"
+        },
+        {
+          "current_key": "AIzaSyB538Xu-8rjxU-orj6t4enqZPXQ97RLpOs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "22996382747-454bque0b9ctuepggmb1qvkuiuef1lok.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "22996382747-031ddkmgr1u1lnla6t8jlpqm0mfrehvl.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.Cimcon.Internal"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:22996382747:android:99161b7aa37b723dbeb4be",
+        "android_client_info": {
+          "package_name": "com.cl.ezinstallhybrid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "22996382747-454bque0b9ctuepggmb1qvkuiuef1lok.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCy5K24XBzn4LhuZJyVHVxWnAmNqIDhI94"
+        },
+        {
+          "current_key": "AIzaSyB538Xu-8rjxU-orj6t4enqZPXQ97RLpOs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "22996382747-454bque0b9ctuepggmb1qvkuiuef1lok.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "22996382747-031ddkmgr1u1lnla6t8jlpqm0mfrehvl.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.Cimcon.Internal"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:22996382747:android:4a8ffc4abb0dcf72beb4be",
+        "android_client_info": {
+          "package_name": "com.cl.lg"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "22996382747-fsr9b7a97er4o81u3rfot9pqr68njs7k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cl.lg",
+            "certificate_hash": "5486df54e0164c7afdf094cc1cb08b750cd845ef"
+          }
+        },
+        {
+          "client_id": "22996382747-454bque0b9ctuepggmb1qvkuiuef1lok.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCy5K24XBzn4LhuZJyVHVxWnAmNqIDhI94"
+        },
+        {
+          "current_key": "AIzaSyB538Xu-8rjxU-orj6t4enqZPXQ97RLpOs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "22996382747-454bque0b9ctuepggmb1qvkuiuef1lok.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "22996382747-031ddkmgr1u1lnla6t8jlpqm0mfrehvl.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.Cimcon.Internal"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:22996382747:android:cae5c270296bc41bbeb4be",
+        "android_client_info": {
+          "package_name": "com.cl.sclezinstallweb"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "22996382747-454bque0b9ctuepggmb1qvkuiuef1lok.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCy5K24XBzn4LhuZJyVHVxWnAmNqIDhI94"
+        },
+        {
+          "current_key": "AIzaSyB538Xu-8rjxU-orj6t4enqZPXQ97RLpOs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "22996382747-454bque0b9ctuepggmb1qvkuiuef1lok.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "22996382747-031ddkmgr1u1lnla6t8jlpqm0mfrehvl.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.Cimcon.Internal"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

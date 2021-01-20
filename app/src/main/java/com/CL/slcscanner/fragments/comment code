@@ -1,0 +1,114 @@
+   /*
+        if (data != null) {
+            try {
+                bm = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), data.getData());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+//onCaptureImageResult
+        Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        thumbnail.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+
+        File destination = new File(Environment.getExternalStorageDirectory(), "/SLCScanner/" + "Preview.jpg");
+        FileOutputStream fo;
+        try {
+            destination.createNewFile();
+            fo = new FileOutputStream(destination);
+            fo.write(bytes.toByteArray());
+            fo.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //imageUri = Uri.fromFile(destination);
+        //Path = new Util().getRealPathFromURI(imageUri, getActivity());
+*/
+
+
+CameraPreviewFragment.java
+
+/*
+    byte[] bitmapdata = bos.toByteArray();
+    //write the bytes in file
+    FileOutputStream fos = null;
+            try {
+        fos = new FileOutputStream(filePath);
+        fos.write(bitmapdata);
+        fos.flush();
+        fos.close();
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+*/
+/*Bitmap bm = null;
+        if (data != null) {
+            try {
+                bm = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), data.getData());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }*/
+//fileCamerra=new File(bm);
+//     Bitmap bitmap= (Bitmap) data.getExtras().get("data");
+
+//1 - works
+//bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), objUri);
+//Glide.with(getActivity()).load(bitmap).into(ivCameraPreview);
+
+//rotaion issue...then below code auto rotate image and display
+//int orientation=new Util().getCameraPhotoOrientation(getActivity(),objUri,filePath);
+//ivCameraPreview.setRotation(orientation);
+
+//2 - works
+            /*ParcelFileDescriptor parcelFileDescriptor = getActivity().getContentResolver().openFileDescriptor(objUri, "r");
+            FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
+            Bitmap image = BitmapFactory.decodeFileDescriptor(fileDescriptor);
+            parcelFileDescriptor.close();
+            Glide
+                    .with(getActivity())
+                    .load(image)
+                    .into(ivCameraPreview);
+            ivCameraPreview.setRotation(90f);*/
+
+//3 - works
+//Bitmap imageBitmap = BitmapFactory.decodeStream( getActivity().getContentResolver().openInputStream(objUri));
+//Glide.with(getActivity()).load(imageBitmap).into(ivCameraPreview);
+//ivCameraPreview.setRotation(90f); // not for sefli
+
+//4 works
+//Bitmap original = BitmapFactory.decodeStream( getActivity().getContentResolver().openInputStream(objUri));
+//Glide.with(getActivity()).load(original).into(ivCameraPreview);
+//ivCameraPreview.setRotation(90f);
+
+//5 works
+//ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+//original.compress(Bitmap.CompressFormat.PNG, 100, bytes);
+//Bitmap decoded = BitmapFactory.decodeStream(new ByteArrayInputStream(bytes.toByteArray()));
+
+//6 works
+//ivCameraPreview.setImageBitmap(new Util().setScaledPic(filePath, ivCameraPreview));
+//ivCameraPreview.setRotation(90f);
+
+//7 auto matic rotation - not work in Xiomi A1
+//Bitmap imageBitmap = BitmapFactory.decodeStream(getActivity().getContentResolver().openInputStream(objUri));
+//Bitmap bitmapRotated = Util.rotateImageIfRequired(getActivity(), imageBitmap, objUri);
+//ivCameraPreview.setImageBitmap(bitmapRotated);
+
+//8 - Rotation issue
+//Picasso.with(getActivity().getApplicationContext()).load(filePath).into(ivCameraPreview);
+//Picasso.get().load(objUri).into(ivCameraPreview);
+
+//9 Decode - resize (1024 x 1024 ) - auto rotate - not rotate
+//bitmap=Util.decodeSampledBitmap(getActivity(),objUri);
+//ivCameraPreview.setImageBitmap(bitmap);
+
+//10
+//bitmap=Util.decodeSampledBitmap(getActivity(),objUri);
+           /* bitmap = BitmapFactory.decodeStream(getActivity().getContentResolver().openInputStream(objUri));
+            int orientation=new Util().getCameraPhotoOrientation(getActivity(),objUri,filePath);
+            ivCameraPreview.setImageBitmap(bitmap);
+          ivCameraPreview.setRotation(orientation);*/

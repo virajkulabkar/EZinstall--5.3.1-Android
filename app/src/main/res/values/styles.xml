@@ -1,0 +1,66 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:screenOrientation">portrait</item>
+    </style>
+
+
+    <style name="AppTheme.NoActionBar">
+
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:screenOrientation">portrait</item>
+        <item name="android:fontFamily">@font/poppins_regular</item>
+    </style>
+
+    <style name="MyTheme">
+        <item name="android:textColorAlertDialogListItem">@color/colorPrimary</item>
+    </style>
+
+    <style name="btn_parent">
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:layout_marginTop">10dp</item>
+    </style>
+
+    <style name="green_btn_style" parent="btn_parent">
+        <item name="android:background">@drawable/green_btn</item>
+    </style>
+
+    <style name="grey_btn_style" parent="btn_parent">
+        <item name="android:background">@drawable/grey_btn</item>
+    </style>
+
+    <style name="blue_btn_style" parent="btn_parent">
+        <item name="android:background">@drawable/blue_btn</item>
+    </style>
+
+    <style name="white_btn_style" parent="btn_parent">
+        <item name="android:background">@drawable/white_btn</item>
+    </style>
+
+    <style name="back_button">
+        <item name="android:layout_width">@dimen/_20sdp</item>
+        <item name="android:layout_height">@dimen/_20sdp</item>
+        <item name="android:layout_gravity">left|center</item>
+        <item name="android:layout_margin">@dimen/_5sdp</item>
+        <item name="android:layout_marginRight">@dimen/_10sdp</item>
+        <item name="android:padding">@dimen/_2sdp</item>
+        <item name="android:visibility">visible</item>
+    </style>
+</resources>

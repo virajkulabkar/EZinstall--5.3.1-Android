@@ -1,0 +1,235 @@
+<resources>
+    <!--<string name="app_name">SLC EZinstall</string>-->
+    <string name="app_name">EZinstall 5.3</string>
+    <string name="scan">ESCANEAR</string>
+    <string name="scan_uid">ESCANEAR UID</string>
+    <string name="pole">PÓLO</string>
+    <string name="list">LISTA</string>
+    <string name="setting">CONFIGURAÇÕES</string>
+    <string name="help">Socorro</string>
+    <string name="logout">Sair</string>
+    <string name="contact">CONTACT</string>
+    <string name="mapsetting">MAPA</string>
+
+    <string name="username">Nome do Usuário</string>
+    <string name="password">Senha</string>
+    <string name="server_error">Opa! Algo deu errado. Tente mais tarde</string>
+    <string name="network_error">Erro de rede</string>
+    <string name="empty_username">Por favor, insira o nome do usuário</string>
+    <string name="empty_password">Por favor, insira a senha</string>
+    <string name="password_length">Por favor, insira pelo menos 6 caracteres</string>
+    <string name="internent_connection">Sem Conexão de Internet</string>
+    <string name="please_enter_unique_code">Por favor, insira o código de segurança</string>
+    <string name="enter_security_text">Insira o texto de segurança</string>
+
+    <!--<string name="str_pin_text">Please move the pin \nto your exact location</string>-->
+    <!--<string name="str_pin_text">Por favor segure o alfinete e mova-o para a sua localização exata</string>-->
+
+    <string name="str_pin_text">Por favor, segure o pino e o mova até sua localização exata</string>
+
+    <string name="security_code">CÓDIGO DE SEGURANÇA</string>
+    <string name="username_value"></string>
+    <string name="password_value"></string>
+
+    <string name="single_pin">Minha localização</string>
+    <!--<string name="confirm_mac">Por favor, confirme o endereço MAC</string>-->
+    <string name="confirm_mac">Por favor, confirme o endereço UID</string>
+
+    <!--<string name="address"> 600 Technology Park Drive, \nSuite 100 Billerica, \nMA 01821, USA</string>-->
+    <string name="address">35 Crosby drive, \nBedford MA 01730, USA</string>
+    <string name="tel">Tel: 978-320-4002 \n Fax: 978-234-0300</string>
+    <string name="email">sales@cimconlighting.com</string>
+    <string name="copyright">&#169; 2018 Cimcon Lighting, Inc</string>
+    <string name="dialog_title1">Você pode alterar a Unidade de Medição na guia Configurações na parte inferior.</string>
+
+    <string name="API_KEY">AIzaSyB538Xu-8rjxU-orj6t4enqZPXQ97RLpOs</string>
+    <string name="editMsg">Você pode modificar esse dado agora</string>
+
+    <string name="permission">Please check all permissions,\nPlease goto: Permissions -> Check all </string>
+    <!-- -->
+
+    <string name="speech_prompt">Please say numeric values only&#8230;</string>
+    <string name="speech_not_supported">Desculpa! Seu dispositivo não suporta entrada de fala</string>
+
+    <string name="confirmation">Confirme que você deseja fazer essas alterações</string>
+
+    <string name="google_map_accuracy_lable"> Metros \nPrecisão</string>
+    <string name="google_map_satellites">\nSatélites</string>
+    <!-- Google map Types: -->
+    <string name="google_map_standard">Padrão Mapa Google</string>
+    <string name="google_map_satellite">Satélite do Mapa Google</string>
+    <string name="google_map_hybride">Híbrido Mapa Google</string>
+    <string name="google_map_terrian">Google Map Terrain</string>
+    <!-- Open street map -->
+    <string name="open_street_standard">Abrir Rua Padrão</string>
+    <string name="open_street_cycle">Open Street Cycle</string>
+    <string name="open_street_humantarian">Open Street Humantarian</string>
+    <!-- Statmen -->
+    <string name="stamen_terriean">Stamen Terriean</string>
+    <string name="stamen_tonner">Stamen Tonner</string>
+    <string name="stamen_watercolor">Stamen Watercolor</string>
+    <!-- Carto DB-->
+    <string name="carto_db_dark">Carto DB Dark</string>
+    <string name="carto_db_light_positron">Carto DB Light Positron</string>
+
+    <string name="security_code_int">Digite o texto de segurança</string>
+    <string name="search_by_id">Procurar por ID do SLC</string>
+    <string name="slc_id">ID do SLC</string>
+    <string name="pole_id">ID do POSTE</string>
+    <string name="mac_id">ID MAC</string>
+    <string name="none">&#160;&#160;Nada</string>
+    <string name="pole_details">DETALHES DO POSTE</string>
+    <string name="address_title">ENDEREÇO</string>
+    <string name="date_of_installation">Data de instalação</string>
+    <string name="edit">MODIFICAR</string>
+    <string name="back">VOLTAR</string>
+    <string name="save">SALVAR</string>
+    <string name="select">Selecionar</string>
+    <string name="scan_mac_id">ESCANEAR ID MAC</string>
+    <string name="add">ADICIONAR</string>
+    <string name="postion_code_in_box_above">Código de Posição na Caixa Acima</string>
+    <string name="confirm">Confirmar</string>
+    <string name="please_wait">Por favor, aguarde</string>
+    <!--<string name="loading">Carregando…</string>-->
+    <string name="loading">Por favor, espere. Isso pode levar um tempo. Não toque no botão Voltar.</string>
+    <string name="scan_slc_id">ESCANEAR ID do SLC</string>
+    <string name="location">LOCALIZAÇÃO</string>
+    <string name="google_map_title">Por favor, segure o pino e o mova até sua localização exata</string>
+    <string name="accept">ACEITAR</string>
+    <string name="no_internet_connection">Sem Conexão de Internet</string>
+    <string name="satellites">Satélites</string>
+    <string name="meters">Medidores</string>
+    <string name="accurracy">Precisão</string>
+    <string name="information">Informação</string>
+    <string name="info_msg">
+      <![CDATA[ <b>Satellites:</b> The GPS gets a signal from each GPS satellite to calculate your position. The satellites transmit the exact time the signals are sent.<br/><br/><b>Accuracy:</b> The accuracy refers to the degree of closeness to the actual position.]]>
+    </string>
+    <string name="enter_address">Inserir Endereço</string>
+    <string name="please_enter_valid_addressw">Por favor, inserir um endereço válido</string>
+    <string name="camera">Câmera</string>
+    <string name="skip">PULAR</string>
+    <string name="add_photo">ADICIONAR FOTO</string>
+    <string name="select_pole_image">Selecionar Imagem do Poste</string>
+    <string name="photo_library">Galeria de Foto</string>
+    <string name="enter_pole_id">Insira a ID do Poste</string>
+    <string name="please_enter_pole_id">Por favor, Insira uma ID de Poste Válida</string>
+    <string name="copy_pole_data_from_last_entry">Copiar dados do poste do último registro</string>
+    <!--<string name="yes">SIM</string>
+    <string name="no">NÃO</string>-->
+    <string name="yes">YES</string>
+    <string name="no">NO</string>
+
+    <string name="saving">Salvando…</string>
+    <string name="you_can_edit_this_data_now">Você pode editar esses dados agora</string>
+    <!--<string name="yes_camel_case">Sim</string>
+    <string name="no_camel_case">Não</string>-->
+    <string name="yes_camel_case">Yes</string>
+    <string name="no_camel_case">No</string>
+    <string name="installation">INSTALAÇÕES</string>
+    <string name="capture_pole_id">Capturar ID do Poste</string>
+    <string name="measurment_units">Unidades de medida</string>
+    <string name="pole_details_camel_case">Detalhes do Poste</string>
+    <string name="map_type">Tipos de Mapa</string>
+
+    <string name="version">Versão: </string>
+    <string name="language">Idioma</string>
+
+    <string name="english">Inglês </string>
+    <string name="spanins">Espanhol </string>
+    <string name="portuguese">Português</string>
+
+    <string name="do_you_want_to_logout">Deseja sair?</string>
+    <string name="other">Outro</string>
+
+    <string name="scan_camel_case">Escanear</string>
+    <string name="please_enter_or_scanid">Por favor, inserir %1$s</string>
+    <string name="please_confirm_you_want_to_make_this_update">Por favor, confirme que você deseja fazer essas atualizações</string>
+    <string name="slc_data_has_been_stored_succesfully">Dados do SLC foram armazenados com êxito</string>
+
+    <string name="new_scan">NOVO ESCANEAMENTO</string>
+    <string name="ok">OK</string>
+    <string name="login">ENTRAR</string>
+    <string name="cancle">CANCELAR</string>
+    <string name="enter_slc_id">Por favor, inserir ID SLC</string><!--Insira o ID do SLC-->
+    <string name="pole_location">LOCAL DO PÓLO</string>
+    <string name="permission_error">Permissão não concedida</string>
+    <string name="slc_not_found">SLCs não encontrados.</string>
+    <string name="select_file">Selecione o arquivo</string>
+    <string name="preview">Visualizar</string>
+    <string name="enter_mac_id">Por favor, inserir %1$s</string>
+    <string name="mac_address">Endereço MAC:</string>
+
+    <!-- attribute name -->
+    <string name="attribute_mac_id">ID MAC </string>
+    <string name="attribute_slc_id">ID do SLC </string>
+    <string name="attribute_pole_id">ID do POSTE </string>
+    <string name="attribute_date_of_installation">Data de instalações </string>
+    <string name="attribute_address">Endereço </string>
+    <string name="other_dialog_enter_data">Adicionar %1$s</string>
+    <string name="enter_data">Inserir dados</string>
+    <string name="attribute_node_type">TIPO DE NODE</string>
+
+    <string name="edit_other_dialog_title_meter"> <![CDATA[ %1$s em pés. <br><small>(e.g. 5\'10\")</small> ]]></string>
+    <string name="edit_other_dialog_title_feet"> <![CDATA[ %1$s em pés. <br><small>(e.g. 5\'10\")</small> ]]></string>
+    <string name="edit_other_dialog_title_cm"> <![CDATA[ %1$s em CM. <br><small>(e.g. 7.5)</small> ]]></string>
+    <string name="edit_other_dialog_title_inches"> <![CDATA[ %1$s em polegadas. <br><small>(e.g. 5)</small> ]]></string>
+    <string name="required">Solicitado..</string>
+    <string name="no_address_found">Nenhum endereço encontrado, Tente Novamente!</string>
+    <string name="select_date">Selecionar Data</string>
+
+    <string name="accuracy_msg"><![CDATA[Precisão se refere ao grau de proximidade à posição atual. Quanto menor o número, melhor a precisão!]]></string>
+    <string name="satellite_msg"><![CDATA[GPS recebe um sinal dos satélites GPS para calcular a sua posição. Aqui, os valores são calculados com base na quantidade de satélites conectados e sua força de sinal.]]></string>
+    <string name="next">Próximo</string>
+    <string name="select_map_type">Selecione o tipo de mapa</string>
+    <string name="back_press_title_dialog">Confirmação</string>
+    <string name="back_press_msg_dialog">Você quer fechar o aplicativo?</string>
+
+    <string name="accuracy_str">Precisão</string>
+    <string name="satellite_str">Satélites</string>
+    <string name="select_lang_type">Idioma: </string>
+    <string name="select_lang">Selecionar Idioma</string>
+
+    <string name="key_english">English</string>
+    <string name="key_spanins">Spanish </string>
+    <string name="key_portuguese">Portuguese</string>
+
+    <string name="key_google_map_satellite">Google Map Satellite</string>
+    <string name="key_google_map_hybride">Google Map Hybrid</string>
+    <string name="key_google_map_terrian">Google Map Terrain</string>
+    <string name="key_google_map_standard">Google Map Standard</string>
+    <string name="key_open_street_standard">Open Street Standard</string>
+    <string name="no_image">Sem Imagem</string>
+
+    <!--<string name="metric">Métrico</string>-->
+    <string name="metric">Metric</string>
+    <string name="location_msg_violate">Por favor, permita que a instalação fácil (EZinstal) do SLC acesse a sua localização.</string>
+    <string name="camerra_permission">Por favor, insira o código manualmente, tocando no ícone de mão no canto superior direito</string>
+    <string name="note">Notas</string>
+    <string name="enter_notes">Inserir notas</string>
+    <string name="devices">Dispositivas</string>
+    <string name="pole_option1">Pole Option</string>
+    <string name="update">ATUALIZAR</string>
+    <string name="make">Faço</string>
+    <string name="continue_str">Continuar</string>
+	<string name="hint_notes">Insira as notas aqui</string>
+    <!--<string name="mac_id_internal">MAC ID for internal SLC cannot be edited</string>-->
+    <string name="mac_id_internal">UID for internal SLC cannot be edited</string>
+    <string name="slc_id_internal">SLC ID for internal SLC cannot be edited</string>
+    <string name="remember">Remember me</string>
+
+    <string name="enablefaceid">Faça login com o Touch ID</string>
+    <string name="put_figure_on_hw">Defina seu dedo no Hardware de impressão digital</string>
+    <string name="added">ADICIONADO</string>
+    <string name="updated_location">Getting your location</string>
+
+    <string name="your_device_does_not_have_a_fingerprint_sensor">Seu dispositivo não possui um sensor de impressão digital</string>
+    <string name="fingerprint_authentication_permission_not_enabled">A permissão de autenticação via impressão digital não foi ativada</string>
+    <string name="to_use_this_feature_please_setup_your_fingerprints_from_the_settings_tab_on_your_phone">
+        Para usar este recurso, configure a impressão digital no menu Configurações do seu telefone.</string>
+    <string name="lock_screen_security_not_enabled_in_settings">A segurança de tela de bloqueio não está ativa nas Configurações</string>
+    <string name="cancel">Cancelar</string>
+    <string name="strNodeTypTitle">Selecione o Tipo de Node</string>
+    <string name="node_type_break">TIPO DE NODE :</string>
+    <string name="status_all">Todos</string>
+    <string name="unknown">Unknown</string>
+</resources>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_5sdp"
+        android:text="Other"
+        android:textSize="@dimen/_14sdp"
+        android:textStyle="bold"
+        android:padding="@dimen/_5sdp"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/_5sdp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/etCode"
+            android:layout_width="@dimen/_200sdp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:layout_marginTop="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_edittextbox"
+            android:gravity="center"
+            android:hint="Enter Manufacturer"
+            android:imeOptions="actionDone"
+            android:padding="@dimen/_5sdp"
+            android:textSize="@dimen/_14sdp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="0dp">
+
+        <Button
+            android:id="@+id/btnCancle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:backgroundTint="@color/colorAccent"
+            android:gravity="center"
+            android:text="@string/cancle"
+            android:textSize="@dimen/_10sdp"
+            android:textColor="@color/colorWhite"
+            android:visibility="visible" />
+
+        <Button
+            android:id="@+id/btOK"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:backgroundTint="@color/colorAccent"
+            android:gravity="center"
+            android:text="Add"
+            android:textColor="@color/colorWhite"
+            android:visibility="visible"
+            android:textSize="@dimen/_10sdp"
+            />
+    </LinearLayout>
+</LinearLayout>

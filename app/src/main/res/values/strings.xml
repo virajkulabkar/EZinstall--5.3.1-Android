@@ -1,0 +1,227 @@
+<resources>
+    <!--<string name="app_name">SLC EZinstall</string>-->
+    <string name="app_name">EZinstall 5.3</string>
+    <string name="scan">SCAN</string>
+    <string name="scan_uid">SCAN UID</string>
+    <string name="pole">POLE</string>
+    <string name="list">LIST</string>
+    <string name="setting">SETTINGS</string>
+    <string name="help">Help</string>
+    <string name="logout">Logout</string>
+    <string name="contact">CONTACT</string>
+    <string name="mapsetting">MAP</string>
+
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="server_error">Oops! Something went wrong. Try again later</string>
+    <string name="network_error">Network Error</string>
+    <string name="empty_username">Please enter username.</string>
+    <string name="empty_password">Please enter password.</string>
+    <string name="password_length">Please enter at least 6 characters</string>
+    <string name="internent_connection">No internet connection</string>
+    <string name="please_enter_unique_code">Please enter security code.</string>
+    <string name="enter_security_text">Enter security text</string>
+
+    <!--<string name="str_pin_text">Please move the pin \nto your exact location</string>-->
+    <string name="str_pin_text">Please hold the pin and move it to your exact location</string>
+
+    <string name="security_code">SECURITY CODE</string>
+    <string name="username_value"></string>
+    <string name="password_value"></string>
+
+    <string name="single_pin">My Location</string>
+    <!--<string name="confirm_mac">Please confirm the MAC Address</string>-->
+    <string name="confirm_mac">Please confirm the UID Address</string>
+
+    <!--<string name="address"> 600 Technology Park Drive, \nSuite 100 Billerica, \nMA 01821, USA</string>-->
+    <string name="address">35 Crosby drive, \nBedford MA 01730, USA</string>
+    <string name="tel">Tel: 978-320-4002 \n Fax: 978-234-0300</string>
+    <string name="email">sales@cimconlighting.com</string>
+    <string name="copyright">&#169; 2018 Cimcon Lighting, Inc</string>
+    <string name="dialog_title1">You can change the Measurement Unit from the Settings Tab at the bottom.</string>
+
+    <string name="API_KEY">AIzaSyB538Xu-8rjxU-orj6t4enqZPXQ97RLpOs</string>
+    <string name="editMsg">You can edit this data now</string>
+
+    <string name="permission">Please check all permissions,\nPlease goto:App info ->  Permissions -> Check all </string>
+    <!-- -->
+
+    <string name="speech_prompt">Please say numeric values only&#8230;</string>
+    <string name="speech_not_supported">Sorry! Your device doesn\'t support speech input</string>
+
+    <string name="confirmation">Please confirm you would like to make these changes</string>
+
+    <string name="google_map_accuracy_lable"> Meters \nAccuracy</string>
+    <string name="google_map_satellites">\nSatellites</string>
+    <!-- Google map Types: -->
+    <string name="google_map_standard">Google Map Standard</string>
+    <string name="google_map_satellite">Google Map Satellite</string>
+    <string name="google_map_hybride">Google Map Hybrid</string>
+    <string name="google_map_terrian">Google Map Terrain</string>
+    <!-- Open street map -->
+    <string name="open_street_standard">Open Street Standard</string>
+    <string name="open_street_cycle">Open Street Cycle</string>
+    <string name="open_street_humantarian">Open Street Humantarian</string>
+    <!-- Statmen -->
+    <string name="stamen_terriean">Stamen Terriean</string>
+    <string name="stamen_tonner">Stamen Tonner</string>
+    <string name="stamen_watercolor">Stamen Watercolor</string>
+    <!-- Carto DB-->
+    <string name="carto_db_dark">Carto DB Dark</string>
+    <string name="carto_db_light_positron">Carto DB Light Positron</string>
+
+    <string name="security_code_int">Enter Security Text</string>
+    <string name="search_by_id">Search by SLC ID</string>
+    <string name="slc_id">SLC ID</string>
+    <string name="pole_id">POLE ID</string>
+    <string name="mac_id">MAC ID</string>
+    <string name="none">&#160;&#160;None</string>
+    <string name="pole_details">POLE DETAILS</string>
+    <string name="address_title">ADDRESS</string>
+    <string name="date_of_installation">Date Of Installation:</string>
+    <string name="edit">EDIT</string>
+    <string name="back">BACK</string>
+    <string name="save">SAVE</string>
+    <string name="select">SELECT</string>
+    <string name="scan_mac_id">SCAN MAC ID</string>
+    <string name="add">ADD</string>
+    <string name="postion_code_in_box_above">Position Code in Box Above</string>
+    <string name="confirm">Confirm</string>
+    <string name="please_wait">Please wait…</string>
+    <!--<string name="loading">Loading…</string>-->
+    <string name="loading">Please wait. This can take some time. Don\'t tap on the back button.</string>
+    <string name="scan_slc_id">SCAN SLC ID</string>
+    <string name="location">LOCATION</string>
+    <string name="google_map_title">Please hold the pin and move it to your exact location</string>
+    <string name="accept">ACCEPT</string>
+    <string name="no_internet_connection">No Internet Connection</string>
+    <string name="satellites">Satellites</string>
+    <string name="meters">Meters</string>
+    <string name="accurracy">Accuracy</string>
+    <string name="information">Information</string>
+    <string name="info_msg">
+      <![CDATA[ <b>Satellites:</b> The GPS gets a signal from each GPS satellite to calculate your position. The satellites transmit the exact time the signals are sent.<br/><br/><b>Accuracy:</b> The accuracy refers to the degree of closeness to the actual position.]]>
+    </string>
+    <string name="enter_address">Enter Address</string>
+    <string name="please_enter_valid_addressw">Please enter valid address</string>
+    <string name="camera">Camera</string>
+    <string name="skip">SKIP</string>
+    <string name="add_photo">ADD PHOTO</string>
+    <string name="select_pole_image">Select Pole Image</string>
+    <string name="photo_library">Photo Library</string>
+    <string name="enter_pole_id">Enter Pole ID</string>
+    <string name="please_enter_pole_id">Please Enter Valid Pole ID</string>
+    <string name="copy_pole_data_from_last_entry">Copy pole data from last entry</string>
+    <string name="yes">YES</string>
+    <string name="no">NO</string>
+    <string name="saving">Saving…</string>
+    <string name="you_can_edit_this_data_now">You can edit this data now</string>
+    <string name="yes_camel_case">Yes</string>
+    <string name="no_camel_case">No</string>
+    <string name="installation">INSTALLATIONS</string>
+    <string name="capture_pole_id">Capture Pole ID</string>
+    <string name="measurment_units">Measurement Units</string>
+    <string name="pole_details_camel_case">Pole Details</string>
+    <string name="map_type">Map Types</string>
+
+    <string name="version">Version: </string>
+    <string name="language">Language</string>
+
+    <string name="english">English</string>
+    <string name="spanins">Spanish </string>
+    <string name="portuguese">Portuguese</string>
+    <string name="do_you_want_to_logout">Do you want to logout?</string>
+    <string name="other">Other</string>
+
+    <string name="scan_camel_case">Scan</string>
+    <string name="please_enter_or_scanid">Please enter or Scan %1$s</string>
+    <string name="please_confirm_you_want_to_make_this_update">Please confirm you want to make this updates</string>
+    <string name="slc_data_has_been_stored_succesfully">SLC Data has been stored successfully</string>
+
+    <string name="new_scan">NEW SCAN</string>
+    <string name="ok">OK</string>
+    <string name="login">LOGIN</string>
+    <string name="cancle">Cancel</string>
+    <string name="enter_slc_id">Please enter SLC ID</string>
+    <string name="pole_location">POLE LOCATION</string>
+    <string name="permission_error">Permission not granted</string>
+    <string name="slc_not_found">SLCs not found.</string>
+    <string name="select_file">Select File</string>
+    <string name="preview">Preview</string>
+    <string name="enter_mac_id">Please enter %1$s</string>
+    <string name="mac_address">MAC ADDRESS</string>
+
+    <!-- attribute name -->
+    <string name="attribute_mac_id">MAC ID </string>
+    <string name="attribute_slc_id">SLC ID </string>
+    <string name="attribute_pole_id">Pole ID </string>
+    <string name="attribute_date_of_installation">Date of Installation </string>
+    <string name="attribute_address">Address </string>
+    <string name="other_dialog_enter_data">Add %1$s</string>
+    <string name="enter_data">Enter data</string>
+    <string name="attribute_node_type">Node Type</string>
+
+    <string name="edit_other_dialog_title_meter"> <![CDATA[ %1$s in Feet. <br><small>(e.g. 5\'10\")</small> ]]></string>
+    <string name="edit_other_dialog_title_feet"> <![CDATA[ %1$s in Feet. <br><small>(e.g. 5\'10\")</small> ]]></string>
+    <string name="edit_other_dialog_title_cm"> <![CDATA[ %1$s in CM. <br><small>(e.g. 7.5)</small> ]]></string>
+    <string name="edit_other_dialog_title_inches"> <![CDATA[ %1$s in inches. <br><small>(e.g. 5)</small> ]]></string>
+    <string name="required">Required..</string>
+    <string name="no_address_found">No address found, Try Again !</string>
+    <string name="select_date">Select Date</string>
+
+    <string name="accuracy_msg"><![CDATA[Accuracy refers to the degree of closeness to the actual position. Lower the number, better the accuracy! !]]></string>
+    <string name="satellite_msg"><![CDATA[GPS gets a signal from GPS satellites to calculate your position. Here the value is calculated based on the number of satellites connected to and the strength of the signal from these satellites.]]></string>
+    <string name="next">NEXT</string>
+    <string name="select_map_type">Select Map Type</string>
+    <string name="back_press_title_dialog">Confirmation</string>
+    <string name="back_press_msg_dialog">Do you want to close the app ?</string>
+
+    <string name="accuracy_str">Accuracy</string>
+    <string name="satellite_str">Satellites</string>
+    <string name="select_lang_type">Language: </string>
+    <string name="select_lang">Select Language</string>
+
+    <string name="key_english">English</string>
+    <string name="key_spanins">Spanish </string>
+    <string name="key_portuguese">Portuguese</string>
+
+    <string name="key_google_map_satellite">Google Map Satellite</string>
+    <string name="key_google_map_hybride">Google Map Hybrid</string>
+    <string name="key_google_map_terrian">Google Map Terrain</string>
+    <string name="key_google_map_standard">Google Map Standard</string>
+    <string name="key_open_street_standard">Open Street Standard</string>
+    <string name="no_image">No Image</string>
+
+    <string name="metric">Metric</string>
+    <string name="location_msg_violate">Please allow SLC EZinstall to access your location.</string>
+    <string name="camerra_permission">Please enter the code manually by tapping on hand icon on top right corner</string>
+    <string name="note">Notes</string>
+    <string name="enter_notes">Enter Notes</string>
+    <string name="devices">Devices</string>
+    <string name="pole_option1">Pole Option</string>
+    <string name="update">UPDATE</string>
+    <string name="make">Make</string>
+    <string name="continue_str">Continue</string>
+	<string name="hint_notes">Enter notes here</string>
+    <!--<string name="mac_id_internal">MAC ID for internal SLC cannot be edited</string>-->
+    <string name="mac_id_internal">UID for internal SLC cannot be edited</string>
+    <string name="slc_id_internal">SLC ID for internal SLC cannot be edited</string>
+
+    <string name="enablefaceid">Login with Touch ID</string>
+    <string name="put_figure_on_hw">Please set you finger on Fingerprint Hardware</string>
+    <string name="remember">Remember me</string>
+    <string name="added">ADDED ON</string>
+    <string name="updated_location">Getting your location</string>
+
+    <string name="your_device_does_not_have_a_fingerprint_sensor">Your Device does not have a Fingerprint Sensor</string>
+    <string name="fingerprint_authentication_permission_not_enabled">Fingerprint authentication permission not enabled</string>
+    <string name="to_use_this_feature_please_setup_your_fingerprints_from_the_settings_tab_on_your_phone">To use this feature please setup your fingerprints from the Settings tab on your phone. </string>
+    <string name="lock_screen_security_not_enabled_in_settings">Lock screen security not enabled in Settings</string>
+    <string name="node_type_break">NODE TYPE :</string>
+    <string name="status_all">All</string>
+    <string name="cancel">Cancel</string>
+    <string name="strNodeTypTitle">Select Node Type</string>
+    <string name="unknown">Unknown</string>
+
+
+</resources>
