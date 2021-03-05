@@ -661,10 +661,18 @@ public class Util {
         });
     }
 
-    public static void deletePreviewFile() {
-        final File fileCamerra = new File(Environment.getExternalStorageDirectory() + "/SLCScanner/Preview.jpg");
+    public static void deletePreviewFile(Context context) {
+        /*final File fileCamerra = new File(Environment.getExternalStorageDirectory() + "/SLCScanner/Preview.jpg");
         if (fileCamerra.exists())
-            fileCamerra.delete();
+            fileCamerra.delete();*/
+
+
+        File folder = new File(String.valueOf(context.getExternalFilesDir(Environment.DIRECTORY_DCIM)));
+        folder.mkdirs();
+        File f = new File(folder, "Preview.jpg");
+        if (f.exists()) {
+            f.delete();
+        }
 
     }
 
@@ -714,6 +722,50 @@ public class Util {
         //imageUri = Uri.fromFile(imageFile);
     }
 
+
+    public static void storeImage2(Context context,Bitmap bitmap) {
+
+        //File root = Environment.getExternalStorageDirectory();
+
+        File folder = new File(String.valueOf(context.getExternalFilesDir(Environment.DIRECTORY_DCIM)));
+        folder.mkdirs();
+        File file = new File(folder, "Preview.jpg");
+
+        if (file.exists()) {
+            file.delete();
+        }
+
+        try {
+            file.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        /*File root= new File(context.getFilesDir() + "/SLCScanner");
+        if (root.canWrite()) {
+            File dir = new File(root + "/SLCScanner");
+            if (!dir.exists())
+                dir.mkdir();
+        }*/
+
+        //File filesDir = Environment.getExternalStorageDirectory();
+        //File imageFile = new File(filesDir, "/SLCScanner/" + name + ".jpg");
+
+        ByteArrayOutputStream bos;
+        try {
+            bos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 50, bos);
+            byte[] bytes = bos.toByteArray();
+
+            FileOutputStream fos = new FileOutputStream(file);
+            fos.write(bytes);
+            fos.flush();
+            fos.close();
+        } catch (Exception e) {
+            Log.e("ERROR", "Error writing bitmap", e);
+        }
+        //imageUri = Uri.fromFile(imageFile);
+    }
 
     public static RequestBody getRequestBody(String value) {
         return RequestBody.create(MediaType.parse("text/plain"), value);

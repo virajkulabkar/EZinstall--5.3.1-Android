@@ -54,7 +54,7 @@ public class OnClearFromRecentService extends Service {
                 spf.edit().putLong(AppConstants.SPF_DEACTIVE_TIME, timeDate).apply();
             }
 
-            Util.deletePreviewFile();
+            Util.deletePreviewFile(this);
             clearSharedPref();
             stopSelf();
         }catch (Exception e){}

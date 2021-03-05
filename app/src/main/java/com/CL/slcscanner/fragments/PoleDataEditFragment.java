@@ -123,6 +123,7 @@ import static com.CL.slcscanner.Utils.Util.getRequestBody;
 import static com.CL.slcscanner.Utils.Util.hasPermissions;
 import static com.CL.slcscanner.Utils.Util.storeImage;
 import static com.CL.slcscanner.Utils.Util.storeImage1;
+import static com.CL.slcscanner.Utils.Util.storeImage2;
 
 /**
  * Created by vrajesh on 2/24/2018.
@@ -687,7 +688,13 @@ public class PoleDataEditFragment extends Fragment implements View.OnClickListen
     void callEditSLCApi(final String slcid, String poleid, String tempMacid, String
             address, String doi, String assets) {
         File root = Environment.getExternalStorageDirectory();
-        final File fileCamerra = new File(root + "/SLCScanner/Preview.jpg");
+        //final File fileCamerra = new File(root + "/SLCScanner/Preview.jpg");
+
+
+        final File fileCamerra = new File(String.valueOf(getActivity().getExternalFilesDir(Environment.DIRECTORY_DCIM)));
+            if(!fileCamerra.exists())
+                fileCamerra.mkdir();
+
         //final File fileCamerra = new File(Path);
 
         //RequestBody requestFile =RequestBody.create(MediaType.parse("multipart/form-data"), fileCamerra);
@@ -809,8 +816,13 @@ public class PoleDataEditFragment extends Fragment implements View.OnClickListen
 
     void callEditSLCApi2(final String slcid, String poleid, String tempMacid, String
             address, String doi, Map<String, RequestBody> map, String assets, String notes, String node_type) {
-        File root = Environment.getExternalStorageDirectory();
-        final File fileCamerra = new File(root + "/SLCScanner/Preview.jpg");
+        /*File root = Environment.getExternalStorageDirectory();
+        final File fileCamerra = new File(root + "/SLCScanner/Preview.jpg");*/
+
+        File root = new File(String.valueOf(getActivity().getExternalFilesDir(Environment.DIRECTORY_DCIM)));
+        root.mkdirs();
+        File fileCamerra = new File(root, "Preview.jpg");
+
         //final File fileCamerra = new File(Path);
 
         HashMap<String, RequestBody> map2 = new HashMap<>();
@@ -948,8 +960,13 @@ public class PoleDataEditFragment extends Fragment implements View.OnClickListen
 
     void saveNewSLCData2(String skip, String DOI, String address, String
             tempSlc, Map<String, RequestBody> map, String assets, String notes, String node_type) {
-        File root = Environment.getExternalStorageDirectory();
-        final File fileCamerra = new File(root + "/SLCScanner/Preview.jpg");
+        //File root = Environment.getExternalStorageDirectory();
+        //final File fileCamerra = new File(root + "/SLCScanner/Preview.jpg");
+
+        File root = new File(String.valueOf(getActivity().getExternalFilesDir(Environment.DIRECTORY_DCIM)));
+        root.mkdirs();
+        File fileCamerra = new File(root, "Preview.jpg");
+
 
         MultipartBody.Part filePart = null;
         if (fileCamerra.exists()) {
@@ -1031,7 +1048,7 @@ public class PoleDataEditFragment extends Fragment implements View.OnClickListen
                         Util.addLog("Edit Pole Data: New Data saved Successfully");
 
                         spf.edit().putString(AppConstants.SPF_LOGOUT_SLCID, "").apply();
-                        Util.deletePreviewFile();
+                        Util.deletePreviewFile(getActivity());
 
                     } else if (response1.getStatus().equalsIgnoreCase("logout")) {
 
@@ -2208,9 +2225,15 @@ public class PoleDataEditFragment extends Fragment implements View.OnClickListen
         } else {
 
             //Bitmap bitmap = Util.decodeSampledBitmap(getActivity(), data.getData(), filePath);
-            String path = android.os.Environment.getExternalStorageDirectory() + "/SLCScanner/Preview.jpg";
-            File f = new File(path);
-            Bitmap myBitmap = BitmapFactory.decodeFile(path);
+
+            //String path = android.os.Environment.getExternalStorageDirectory() + "/SLCScanner/Preview.jpg";
+            //File f = new File(path);
+            //Bitmap myBitmap = BitmapFactory.decodeFile(path);
+
+            File root = new File(String.valueOf(getActivity().getExternalFilesDir(Environment.DIRECTORY_DCIM)));
+            root.mkdirs();
+            File f = new File(root, "Preview.jpg");
+            Bitmap myBitmap = BitmapFactory.decodeFile(root.getAbsolutePath());
 
             if (f.exists()) {
                 ivCameraPreview.setImageBitmap(myBitmap);
@@ -3017,7 +3040,12 @@ public class PoleDataEditFragment extends Fragment implements View.OnClickListen
         //Ensure that there's a camera activity to handle the intent
         if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
             //Create the File where the photo should go
-            File f = new File(android.os.Environment.getExternalStorageDirectory(), "/SLCScanner/Preview.jpg");
+            //File f = new File(android.os.Environment.getExternalStorageDirectory(), "/SLCScanner/Preview.jpg");
+            //filePath = f.getAbsolutePath();
+
+            File root = new File(String.valueOf(getActivity().getExternalFilesDir(Environment.DIRECTORY_DCIM)));
+            root.mkdirs();
+            File f = new File(root, "Preview.jpg");
             filePath = f.getAbsolutePath();
 
             if (f != null) {
@@ -3056,7 +3084,8 @@ public class PoleDataEditFragment extends Fragment implements View.OnClickListen
         try {
 
             Bitmap bitmap = Util.decodeSampledBitmap(getActivity(), data.getData(), filePath);
-            storeImage1(bitmap, "Preview");
+            //storeImage1(bitmap, "Preview");
+            storeImage2(getActivity(),bitmap);
             ivCameraPreview.setImageBitmap(bitmap);
 
         } catch (Exception e) {
@@ -3069,7 +3098,8 @@ public class PoleDataEditFragment extends Fragment implements View.OnClickListen
     private void onCaptureImageResult(Intent data) {
         try {
             Bitmap bitmap = Util.decodeSampledBitmap(getActivity(), objUri, filePath);
-            storeImage1(bitmap, "Preview");
+            //storeImage1(bitmap, "Preview");
+            storeImage2(getActivity(),bitmap);
             ivCameraPreview.setImageBitmap(bitmap);
         } catch (Exception e) {
 

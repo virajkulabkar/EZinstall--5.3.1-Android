@@ -537,8 +537,12 @@ public class NoteFragment extends Fragment implements View.OnClickListener {
         }
 
 
-        File root = Environment.getExternalStorageDirectory();
-        final File fileCamerra = new File(root + "/SLCScanner/Preview.jpg");
+       /* File root = Environment.getExternalStorageDirectory();
+        final File fileCamerra = new File(root + "/SLCScanner/Preview.jpg");*/
+
+        File root = new File(String.valueOf(getActivity().getExternalFilesDir(Environment.DIRECTORY_DCIM)));
+        root.mkdirs();
+        File fileCamerra = new File(root, "Preview.jpg");
 
         MultipartBody.Part filePart = null;
         if (fileCamerra.exists()) {
@@ -624,7 +628,7 @@ public class NoteFragment extends Fragment implements View.OnClickListener {
 
                         spf.edit().putString(AppConstants.SPF_LOGOUT_SLCID, "").apply();
 
-                        Util.deletePreviewFile();
+                        Util.deletePreviewFile(getActivity());
 
                     } else if (response1.getStatus().equalsIgnoreCase("error")) {
                         if (dialog.isShowing())
@@ -698,8 +702,12 @@ public class NoteFragment extends Fragment implements View.OnClickListener {
         JSONObject json1 = new JSONObject(map3);
         Log.i("--**Notes : ", json1.toString());
 
-        File root = Environment.getExternalStorageDirectory();
-        final File fileCamerra = new File(root + "/SLCScanner/Preview.jpg");
+        File root = new File(String.valueOf(getActivity().getExternalFilesDir(Environment.DIRECTORY_DCIM)));
+        root.mkdirs();
+        File fileCamerra = new File(root, "Preview.jpg");
+
+        /*File root = Environment.getExternalStorageDirectory();
+        final File fileCamerra = new File(root + "/SLCScanner/Preview.jpg");*/
 
         MultipartBody.Part filePart = null;
         if (fileCamerra.exists()) {
@@ -783,7 +791,7 @@ public class NoteFragment extends Fragment implements View.OnClickListener {
                         Util.addLog("Edit Pole Data: New Data saved Successfully");
 
                         spf.edit().putString(AppConstants.SPF_LOGOUT_SLCID, "").apply();
-                        Util.deletePreviewFile();
+                        Util.deletePreviewFile(getActivity());
 
                     } else if (response1.getStatus().equalsIgnoreCase("logout")) {
 

@@ -56,6 +56,7 @@ import com.bumptech.glide.request.transition.Transition;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -71,6 +72,7 @@ import retrofit2.Response;
 import static com.CL.slcscanner.Utils.Util.getRequestBody;
 import static com.CL.slcscanner.Utils.Util.storeImage;
 import static com.CL.slcscanner.Utils.Util.storeImage1;
+import static com.CL.slcscanner.Utils.Util.storeImage2;
 
 /**
  * Created by vrajesh on 6/8/2018.
@@ -171,7 +173,7 @@ public class CameraPreviewFragment extends Fragment implements View.OnClickListe
         mList = new ArrayList<>();
 
         //isCopyFromPrevious = spf.getBoolean(AppConstants.CopyFromPrevious, false);
-        Util.deletePreviewFile();
+        Util.deletePreviewFile(getActivity());
 
         Glide.with(getActivity()).load(R.drawable.bg_1_1242_2208).into(ivCameraPreviewBg);
 
@@ -399,8 +401,22 @@ public class CameraPreviewFragment extends Fragment implements View.OnClickListe
         //Ensure that there's a camera activity to handle the intent
         if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
             //Create the File where the photo should go
-            File f = new File(android.os.Environment.getExternalStorageDirectory(), "/SLCScanner/Preview.jpg");
+            //File f = new File(android.os.Environment.getExternalStorageDirectory(), "/SLCScanner/Preview.jpg");
             //File f=new File(android.os.Environment.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "/Preview.jpg");
+
+            File folder = new File(String.valueOf(getActivity().getExternalFilesDir(Environment.DIRECTORY_DCIM)));
+            folder.mkdirs();
+            File f = new File(folder, "Preview.jpg");
+            if (f.exists()) {
+                f.delete();
+            }
+            try {
+                f.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
             filePath = f.getAbsolutePath();
 
             if (f != null) {
@@ -446,7 +462,8 @@ public class CameraPreviewFragment extends Fragment implements View.OnClickListe
             llcamera_inner_view.setVisibility(View.GONE);
 
             bitmap = Util.decodeSampledBitmap(getActivity(), data.getData(), filePath);
-            storeImage1(bitmap, getResources().getString(R.string.preview));
+            //storeImage1(bitmap, getResources().getString(R.string.preview));
+            storeImage2(getActivity(),bitmap);
             ivCameraPreview.setImageBitmap(bitmap);
             isClickable = true;
 
@@ -464,7 +481,8 @@ public class CameraPreviewFragment extends Fragment implements View.OnClickListe
             llcamera_inner_view.setVisibility(View.GONE);
 
             bitmap = Util.decodeSampledBitmap(getActivity(), objUri, filePath);
-            storeImage1(bitmap, getResources().getString(R.string.preview));
+            //storeImage1(bitmap, getResources().getString(R.string.preview));
+            storeImage2(getActivity(),bitmap);
 
             ivCameraPreview.setImageBitmap(bitmap);
             isClickable = true;
@@ -525,7 +543,8 @@ public class CameraPreviewFragment extends Fragment implements View.OnClickListe
                                             @Override
                                             public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
                                                 ivCameraPreview.setImageBitmap(resource);
-                                                storeImage1(resource, "Preview");
+                                                //storeImage1(resource, "Preview");
+                                                storeImage2(getActivity(),resource);
                                                 llcamera_inner_view.setVisibility(View.GONE);
                                             }
                                         });
@@ -585,6 +604,9 @@ public class CameraPreviewFragment extends Fragment implements View.OnClickListe
 
         File root = Environment.getExternalStorageDirectory();
         final File fileCamerra = new File(root + "/SLCScanner/Preview.jpg");
+
+
+
 
         MultipartBody.Part filePart = null;
         if (fileCamerra.exists()) {
@@ -659,7 +681,7 @@ public class CameraPreviewFragment extends Fragment implements View.OnClickListe
 
                         spf.edit().putString(AppConstants.SPF_LOGOUT_SLCID, "").apply();
 
-                        Util.deletePreviewFile();
+                        Util.deletePreviewFile(getActivity());
 
                     } else if (response1.getStatus().equalsIgnoreCase("logout")) {
 

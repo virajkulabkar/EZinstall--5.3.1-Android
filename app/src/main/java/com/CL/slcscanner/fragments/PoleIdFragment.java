@@ -504,8 +504,12 @@ public class PoleIdFragment extends Fragment {
             }
         }
 
-        File root = Environment.getExternalStorageDirectory();
-        final File fileCamerra = new File(root + "/SLCScanner/Preview.jpg");
+        //File root = Environment.getExternalStorageDirectory();
+        //final File fileCamerra = new File(root + "/SLCScanner/Preview.jpg");
+
+        File root = new File(String.valueOf(getActivity().getExternalFilesDir(Environment.DIRECTORY_DCIM)));
+        root.mkdirs();
+        final File fileCamerra = new File(root, "Preview.jpg");
 
         MultipartBody.Part filePart = null;
         if (fileCamerra.exists()) {
@@ -662,8 +666,12 @@ public class PoleIdFragment extends Fragment {
         JSONObject json1 = new JSONObject(map3);
         Log.i("--**Notes : ", json1.toString());
 
-        File root = Environment.getExternalStorageDirectory();
-        final File fileCamerra = new File(root + "/SLCScanner/Preview.jpg");
+        /*File root = Environment.getExternalStorageDirectory();
+        final File fileCamerra = new File(root + "/SLCScanner/Preview.jpg");*/
+
+        File root = new File(String.valueOf(getActivity().getExternalFilesDir(Environment.DIRECTORY_DCIM)));
+        root.mkdirs();
+        final File fileCamerra = new File(root, "Preview.jpg");
 
         MultipartBody.Part filePart = null;
         if (fileCamerra.exists()) {
@@ -735,7 +743,7 @@ public class PoleIdFragment extends Fragment {
                         Util.addLog("Edit Pole Data: New Data saved Successfully");
 
                         spf.edit().putString(AppConstants.SPF_LOGOUT_SLCID, "").apply();
-                        Util.deletePreviewFile();
+                        Util.deletePreviewFile(getActivity());
 
                     } else if (response1.getStatus().equalsIgnoreCase("logout")) {
 
