@@ -40,6 +40,7 @@ import android.text.InputFilter;
 import android.text.InputType;
 import android.text.Selection;
 import android.text.Spanned;
+import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
@@ -2479,7 +2480,7 @@ public class PoleDataEditFragment extends Fragment implements View.OnClickListen
         } else {
             etMacId.setHint(spf.getString(AppConstants.MACID_PH, ""));
             etMacId.setInputType(InputType.TYPE_CLASS_TEXT);
-            etMacId.setFilters(new InputFilter[]{filter});
+            etMacId.setFilters(new InputFilter[]{filter,new InputFilter.AllCaps()});
         }
 
         final Editable etext = etMacId.getText();
