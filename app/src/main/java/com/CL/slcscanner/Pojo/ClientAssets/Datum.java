@@ -51,6 +51,15 @@ public class Datum {
     boolean isNoteData = false;
     boolean isClickable = false;
     boolean isMacIdClick = false;
+    boolean isNoAddressFound=false;
+
+    public boolean isNoAddressFound() {
+        return isNoAddressFound;
+    }
+
+    public void setNoAddressFound(boolean noAddressFound) {
+        isNoAddressFound = noAddressFound;
+    }
 
     public boolean isPoleNoteAsset() {
         return isPoleNoteAsset;

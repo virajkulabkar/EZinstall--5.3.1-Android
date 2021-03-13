@@ -307,7 +307,7 @@ public class PoleDataEditFragment extends Fragment implements View.OnClickListen
         //recyclerView.setHasFixedSize(true);
         final RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
 
-        version=spf.getString(AppConstants.VERSION,"");
+        version = spf.getString(AppConstants.VERSION, "");
 
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setAdapter(mAdapter);
@@ -693,8 +693,8 @@ public class PoleDataEditFragment extends Fragment implements View.OnClickListen
 
 
         final File fileCamerra = new File(String.valueOf(getActivity().getExternalFilesDir(Environment.DIRECTORY_DCIM)));
-            if(!fileCamerra.exists())
-                fileCamerra.mkdir();
+        if (!fileCamerra.exists())
+            fileCamerra.mkdir();
 
         //final File fileCamerra = new File(Path);
 
@@ -862,7 +862,7 @@ public class PoleDataEditFragment extends Fragment implements View.OnClickListen
                 map,
                 RequestBody.create(MediaType.parse("text/plain"), assets),
                 RequestBody.create(MediaType.parse("text/plain"), node_type),
-                RequestBody.create(MediaType.parse("text/plain"),version)
+                RequestBody.create(MediaType.parse("text/plain"), version)
         ).enqueue(new Callback<CommonResponse2>() {
             @Override
             public void onResponse(Call<CommonResponse2> call, Response<CommonResponse2> response) {
@@ -2044,7 +2044,7 @@ public class PoleDataEditFragment extends Fragment implements View.OnClickListen
         dialog_googlemap.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog_googlemap.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         dialog_googlemap.setContentView(R.layout.custom_dialog_map);
-        dialog_googlemap.setCancelable(true);
+        dialog_googlemap.setCancelable(false);
 
         MapView mMapView = dialog_googlemap.findViewById(R.id.mapView1);
         MapsInitializer.initialize(getActivity());
@@ -2126,10 +2126,10 @@ public class PoleDataEditFragment extends Fragment implements View.OnClickListen
                 if (Util.isInternetAvailable(getActivity())) {
                     if (isDragPin) {
                         //new GetAddress(dragLat, dragLong).execute();
-                        getAddressAPI(dragLat, dragLong, clientId);
+                        getAddressAPI(dragLat, dragLong, clientId,true);
                     } else {
                         //new GetAddress(Lat, Long).execute();
-                        getAddressAPI(Lat, Long, clientId);
+                        getAddressAPI(Lat, Long, clientId,false);
                     }
                 } else
                     Util.dialogForMessage(getActivity(), getResources().getString(R.string.no_internet_connection));
@@ -2149,6 +2149,8 @@ public class PoleDataEditFragment extends Fragment implements View.OnClickListen
         dialog_googlemap.show();
     }
 
+    boolean isNoAddressFound = false;
+
     void getAddress(final GoogleMap googleMap, final Marker m, Double lattitude, Double
             longitude) {
 
@@ -2165,14 +2167,19 @@ public class PoleDataEditFragment extends Fragment implements View.OnClickListen
                                     CustomInfoWindowGoogleMap customInfoWindow = new CustomInfoWindowGoogleMap(getActivity(), true, "Yes", obj.getShortaddress());
                                     googleMap.setInfoWindowAdapter(customInfoWindow);
                                     m.showInfoWindow();
-
+                                    isNoAddressFound = false;
                                 } else if (obj.getStatus().equalsIgnoreCase("error")) {
 
                                     CustomInfoWindowGoogleMap customInfoWindow = new CustomInfoWindowGoogleMap(getActivity(), true, "Yes", obj.getMsg());
                                     googleMap.setInfoWindowAdapter(customInfoWindow);
                                     m.showInfoWindow();
-                                } else
+
+                                    //flag notify for address not found
+                                    isNoAddressFound = true;
+                                } else {
                                     Toast.makeText(getActivity(), getResources().getString(R.string.no_address_found), Toast.LENGTH_SHORT).show();
+                                    //isNoAddressFound=false;
+                                }
                             }
                         } else {
                             if (isAdded() && getActivity() != null) {
@@ -2281,7 +2288,7 @@ public class PoleDataEditFragment extends Fragment implements View.OnClickListen
         dialog_cammera.show();
     }
 
-    void getAddressAPI(Double lat, Double lng, String clientid) {
+    void getAddressAPI(Double lat, Double lng, String clientid,final boolean isDrag) {
         dialog.show();
         objApi.getAddress(lat, lng, clientid, userid).enqueue(new Callback<CommonResponse2>() {
             @Override
@@ -2298,6 +2305,7 @@ public class PoleDataEditFragment extends Fragment implements View.OnClickListen
                             if (objDatum.getAttributeName().toString().equalsIgnoreCase(getString(R.string.attribute_address))) {
                                 objDatum.setBtnText(address);
                                 objDatum.setSelectected(address);
+                                objDatum.setNoAddressFound(isNoAddressFound);
                                 mAdapter.notifyItemChanged(mList.indexOf(objDatum));
                                 Log.i(AppConstants.TAG, "Index of " + mList.indexOf(objDatum));
                                 break;
@@ -2314,9 +2322,37 @@ public class PoleDataEditFragment extends Fragment implements View.OnClickListen
                             }
                         });
 
-                    } else if (response1.getStatus().equalsIgnoreCase("error")) {
-                        Util.dialogForMessage(getActivity(), response1.getMsg());
-                    } else {
+                    }
+                    else if (response1.getStatus().equalsIgnoreCase("error")) {
+                        //Util.dialogForMessage(getActivity(), response1.getMsg());
+                        for (com.CL.slcscanner.Pojo.ClientAssets.Datum objDatum : mList) {
+                            if (objDatum.getAttributeName().toString().equalsIgnoreCase(getString(R.string.attribute_address))) {
+                                String address;
+                                if(isDrag)
+                                    address = getResources().getString(R.string.enter_address);
+                                else
+                                    address=objDatum.getSelectected();
+
+                                objDatum.setBtnText(address);
+                                objDatum.setSelectected(address);
+                                objDatum.setNoAddressFound(isNoAddressFound);
+                                mAdapter.notifyItemChanged(mList.indexOf(objDatum));
+                                Log.i(AppConstants.TAG, "Index of " + mList.indexOf(objDatum));
+                                break;
+                            }
+                        }
+
+                        dialog_googlemap.dismiss();
+                        recyclerView.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                // Call smooth scroll
+                                recyclerView.smoothScrollToPosition(mAdapter.getItemCount());
+                            }
+                        });
+
+                    }
+                    else {
                         Toast.makeText(getActivity(), getResources().getString(R.string.no_address_found), Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -2480,7 +2516,7 @@ public class PoleDataEditFragment extends Fragment implements View.OnClickListen
         } else {
             etMacId.setHint(spf.getString(AppConstants.MACID_PH, ""));
             etMacId.setInputType(InputType.TYPE_CLASS_TEXT);
-            etMacId.setFilters(new InputFilter[]{filter,new InputFilter.AllCaps()});
+            etMacId.setFilters(new InputFilter[]{filter, new InputFilter.AllCaps()});
         }
 
         final Editable etext = etMacId.getText();
@@ -2542,7 +2578,7 @@ public class PoleDataEditFragment extends Fragment implements View.OnClickListen
                     tempMacId = result;
                 }
 
-                Log.i("@@@","macid: "+tempMacId+" SLC id: "+tempSLCId);
+                Log.i("@@@", "macid: " + tempMacId + " SLC id: " + tempSLCId);
 
                 FragmentManager fm = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fm.beginTransaction();
@@ -2774,7 +2810,7 @@ public class PoleDataEditFragment extends Fragment implements View.OnClickListen
                                     spf.edit().putString(AppConstants.pole_notes_key, AttKey).apply();
                                 } else {
 
-                                    objDatum.setSelectected( objDatum.getSelectected());
+                                    objDatum.setSelectected(objDatum.getSelectected());
                                     mList.add(objDatum);
 
                                     //mList.add(objClientAssestMaster.getData().get(i));
@@ -2904,8 +2940,8 @@ public class PoleDataEditFragment extends Fragment implements View.OnClickListen
                 lattitude,
                 longitude,
                 "Android",
-                spf.getString(AppConstants.VERSION,"")
-                );
+                spf.getString(AppConstants.VERSION, "")
+        );
 
         objCheckUnieCall.enqueue(new Callback<LoginResponse>() {
             @Override
@@ -2958,7 +2994,7 @@ public class PoleDataEditFragment extends Fragment implements View.OnClickListen
                         //startActivity(new Intent(LoginActivity.this, MainActivity.class));
                     } else if (objCommonResponse.getStatus().toString().equalsIgnoreCase("-1")) {
                         //Util.dialogForMessage(getActivity(), objCommonResponse.getMsg().toString());
-                        Util.dialogForMessagePlayStoreNavigate(getActivity(),objCommonResponse.getMsg().toString());
+                        Util.dialogForMessagePlayStoreNavigate(getActivity(), objCommonResponse.getMsg().toString());
                     } else if (objCommonResponse.getStatus().toString().equalsIgnoreCase("0")) {
                         Util.dialogForMessageNavigate(getActivity(), objCommonResponse.getMsg().toString());
                     } else
@@ -3068,7 +3104,7 @@ public class PoleDataEditFragment extends Fragment implements View.OnClickListen
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);//
         //startActivityForResult(Intent.createChooser(intent, getResources().getString(R.string.select_file)), SELECT_FILE);
-        startActivityForResult(intent,SELECT_FILE);
+        startActivityForResult(intent, SELECT_FILE);
     }
 
     @Override
@@ -3086,7 +3122,7 @@ public class PoleDataEditFragment extends Fragment implements View.OnClickListen
 
             Bitmap bitmap = Util.decodeSampledBitmap(getActivity(), data.getData(), filePath);
             //storeImage1(bitmap, "Preview");
-            storeImage2(getActivity(),bitmap);
+            storeImage2(getActivity(), bitmap);
             ivCameraPreview.setImageBitmap(bitmap);
 
         } catch (Exception e) {
@@ -3100,7 +3136,7 @@ public class PoleDataEditFragment extends Fragment implements View.OnClickListen
         try {
             Bitmap bitmap = Util.decodeSampledBitmap(getActivity(), objUri, filePath);
             //storeImage1(bitmap, "Preview");
-            storeImage2(getActivity(),bitmap);
+            storeImage2(getActivity(), bitmap);
             ivCameraPreview.setImageBitmap(bitmap);
         } catch (Exception e) {
 
@@ -3176,7 +3212,7 @@ public class PoleDataEditFragment extends Fragment implements View.OnClickListen
 
                         //updateMacId(macIdFinal, postion, tempSLC, response1.getSlc_id(), true);
                         updateMacId(macIdFinal, postion, tempSLC, response1.getSlc_id(), true);
-                        macID=macIdFinal;
+                        macID = macIdFinal;
 
                         /*com.CL.slcscanner.Pojo.ClientAssets.Datum objBean = mList.get(postion);
                         objBean.setBtnText(macIdFinal);

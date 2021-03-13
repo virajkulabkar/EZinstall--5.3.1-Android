@@ -119,16 +119,30 @@ public class AssestEditAdapter extends RecyclerView.Adapter<AssestEditAdapter.My
 
             } else if (mList.get(holder.getAdapterPosition()).getAttributeName()
                     .equalsIgnoreCase(mContext.getResources().getString(R.string.attribute_address))) {
-                holder.tvAssetValueDisplay.setVisibility(View.VISIBLE);
-                holder.tvAssetValueEdit.setVisibility(View.GONE);
-                holder.edtAssetValueEditText.setVisibility(View.GONE);
+                if(objBean.isNoAddressFound()){
 
-                holder.tvAssetValueDisplay.setTextColor(mContext.getResources().getColor(R.color.colorAccent));
+                    holder.tvAssetValueDisplay.setVisibility(View.GONE);
+                    holder.tvAssetValueEdit.setVisibility(View.GONE);
+                    holder.edtAssetValueEditText.setVisibility(View.VISIBLE);
 
-                if (isSelctionNull)
-                    holder.tvAssetValueDisplay.setText(objBean.getBtnText());
-                else
-                    holder.tvAssetValueDisplay.setText(objBean.getSelectected());
+                    if (isSelctionNull)
+                        holder.edtAssetValueEditText.setHint(objBean.getBtnText());
+                    else
+                        holder.edtAssetValueEditText.setHint(objBean.getSelectected());
+
+                }else {
+                    holder.tvAssetValueDisplay.setTextColor(mContext.getResources().getColor(R.color.colorAccent));
+                    holder.tvAssetValueDisplay.setVisibility(View.VISIBLE);
+                    holder.tvAssetValueEdit.setVisibility(View.GONE);
+                    holder.edtAssetValueEditText.setVisibility(View.GONE);
+
+                    if (isSelctionNull)
+                        holder.tvAssetValueDisplay.setText(objBean.getBtnText());
+                    else
+                        holder.tvAssetValueDisplay.setText(objBean.getSelectected());
+                }
+
+
 
             } else {
                 if (objBean.getAttrKey().equals("notes")) {
