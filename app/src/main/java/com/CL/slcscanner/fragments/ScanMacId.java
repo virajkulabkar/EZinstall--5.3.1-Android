@@ -343,6 +343,7 @@ public class ScanMacId extends Fragment {
         public CharSequence filter(CharSequence source, int start,
                                    int end, Spanned dest, int dstart, int dend) {
             for (int i = start; i < end; i++) {
+
                 if (!Character.isLetterOrDigit(source.charAt(i))) {
                     return "";
                 }
@@ -378,7 +379,7 @@ public class ScanMacId extends Fragment {
                 String strText = spf.getString(AppConstants.SPF_TEMP_MACID, "");
                 etMacId.setInputType(InputType.TYPE_CLASS_TEXT);
 
-                etMacId.setFilters(new InputFilter[]{filter});
+                etMacId.setFilters(new InputFilter[]{filter,new InputFilter.AllCaps()});
 
 
                 if (isShowPrevious)
@@ -396,7 +397,7 @@ public class ScanMacId extends Fragment {
                 Button btConfirm = view.findViewById(R.id.btConfirm);
                 Button btnCancle = view.findViewById(R.id.btnCancle);
 
-                btConfirm.setOnClickListener(new View.OnClickListener() {
+               btConfirm.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         confirmMacIDCall(etMacId);

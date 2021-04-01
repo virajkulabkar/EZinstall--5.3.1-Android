@@ -321,7 +321,7 @@ public class ScannerForEdit extends Fragment {
             etMacId.setHint(spf.getString(AppConstants.MACID_PH, ""));
             tvMacLBL.setText(spf.getString(AppConstants.MACID_LABLE, ""));
             etMacId.setInputType(InputType.TYPE_CLASS_TEXT);
-            etMacId.setFilters(new InputFilter[]{filter});
+            etMacId.setFilters(new InputFilter[]{filter,new InputFilter.AllCaps()});
         } else {
             etMacId.setHint(getResources().getString(R.string.slc_id));
             tvMacLBL.setText(getResources().getString(R.string.slc_id));

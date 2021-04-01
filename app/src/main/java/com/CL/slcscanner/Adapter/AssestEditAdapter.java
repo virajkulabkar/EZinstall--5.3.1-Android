@@ -75,29 +75,31 @@ public class AssestEditAdapter extends RecyclerView.Adapter<AssestEditAdapter.My
         final Datum objBean = mList.get(holder.getAdapterPosition());
         boolean isSelctionNull = false;
 
-        holder.llClickableRaw.setVisibility(View.VISIBLE);
 
-        holder.tvAssetValueEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                objMyCallbackForControl.onClickForControl(holder.getAdapterPosition(), mList.get(holder.getAdapterPosition()));
-            }
-        });
 
-        holder.tvAssetKey.setText(objBean.getAttributeName());
-        holder.tvAssetValueDisplay.setVisibility(View.GONE);
+            holder.llClickableRaw.setVisibility(View.VISIBLE);
 
-        if (objBean.getSelectected() == null)
-            isSelctionNull = true;
-        else if (objBean.getSelectected().toString().equalsIgnoreCase(""))
-            isSelctionNull = true;
+            holder.tvAssetValueEdit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    objMyCallbackForControl.onClickForControl(holder.getAdapterPosition(), mList.get(holder.getAdapterPosition()));
+                }
+            });
 
-        if (mList.get(holder.getAdapterPosition()).getAttributeName().
-                equalsIgnoreCase(mContext.getResources().getString(R.string.attribute_pole_id))) {
-
+            holder.tvAssetKey.setText(objBean.getAttributeName());
             holder.tvAssetValueDisplay.setVisibility(View.GONE);
-            holder.tvAssetValueEdit.setVisibility(View.GONE);
-            holder.edtAssetValueEditText.setVisibility(View.VISIBLE);
+
+            if (objBean.getSelectected() == null)
+                isSelctionNull = true;
+            else if (objBean.getSelectected().toString().equalsIgnoreCase(""))
+                isSelctionNull = true;
+
+            if (mList.get(holder.getAdapterPosition()).getAttributeName().
+                    equalsIgnoreCase(mContext.getResources().getString(R.string.attribute_pole_id))) {
+
+                holder.tvAssetValueDisplay.setVisibility(View.GONE);
+                holder.tvAssetValueEdit.setVisibility(View.GONE);
+                holder.edtAssetValueEditText.setVisibility(View.VISIBLE);
 
 
             if (isSelctionNull)
@@ -107,11 +109,11 @@ public class AssestEditAdapter extends RecyclerView.Adapter<AssestEditAdapter.My
             else
                 holder.edtAssetValueEditText.setText(objBean.getSelectected());
 
-            holder.tvAssetKey.setTextSize(16);
+                holder.tvAssetKey.setTextSize(16);
 
-            if (mList.get(holder.getAdapterPosition()).getAttributeName().equalsIgnoreCase(mContext.getResources().getString(R.string.attribute_pole_id))) {
-                holder.edtAssetValueEditText.setImeOptions(EditorInfo.IME_ACTION_DONE);
-            }
+                if (mList.get(holder.getAdapterPosition()).getAttributeName().equalsIgnoreCase(mContext.getResources().getString(R.string.attribute_pole_id))) {
+                    holder.edtAssetValueEditText.setImeOptions(EditorInfo.IME_ACTION_DONE);
+                }
 
             /*if (mList.get(holder.getAdapterPosition()).getAttributeName().equalsIgnoreCase(AppConstants.attribSLCID)) {
                 holder.edtAssetValueEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
@@ -120,52 +122,66 @@ public class AssestEditAdapter extends RecyclerView.Adapter<AssestEditAdapter.My
                     holder.edtAssetValueEditText.setInputType(InputType.TYPE_CLASS_TEXT);*/
 
 
-        } else if (mList.get(holder.getAdapterPosition()).getAttributeName()
-                .equalsIgnoreCase(mContext.getResources().getString(R.string.attribute_address))) {
-            holder.tvAssetValueDisplay.setVisibility(View.VISIBLE);
-            holder.tvAssetValueEdit.setVisibility(View.GONE);
-            holder.edtAssetValueEditText.setVisibility(View.GONE);
+            } else if (mList.get(holder.getAdapterPosition()).getAttributeName()
+                    .equalsIgnoreCase(mContext.getResources().getString(R.string.attribute_address))) {
+                if(objBean.isNoAddressFound()){
 
-            holder.tvAssetValueDisplay.setTextColor(mContext.getResources().getColor(R.color.colorAccent));
+                    holder.tvAssetValueDisplay.setVisibility(View.GONE);
+                    holder.tvAssetValueEdit.setVisibility(View.GONE);
+                    holder.edtAssetValueEditText.setVisibility(View.VISIBLE);
 
-            if (isSelctionNull)
-                holder.tvAssetValueDisplay.setText(objBean.getBtnText());
-            else
-                holder.tvAssetValueDisplay.setText(objBean.getSelectected());
+                    if (isSelctionNull)
+                        holder.edtAssetValueEditText.setHint(objBean.getBtnText());
+                    else
+                        holder.edtAssetValueEditText.setHint(objBean.getSelectected());
 
-        } else {
-            if (objBean.getAttrKey().equals("notes")) {
-                holder.tvAssetValueEdit.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        objMyCallbackPoleOption.onClickForControl(position, true, objBean.getNote());
-                    }
-                });
-            }
+                }else {
+                    holder.tvAssetValueDisplay.setTextColor(mContext.getResources().getColor(R.color.colorAccent));
+                    holder.tvAssetValueDisplay.setVisibility(View.VISIBLE);
+                    holder.tvAssetValueEdit.setVisibility(View.GONE);
+                    holder.edtAssetValueEditText.setVisibility(View.GONE);
 
-            holder.tvAssetValueDisplay.setVisibility(View.GONE);
-            holder.tvAssetValueEdit.setVisibility(View.VISIBLE);
-            holder.edtAssetValueEditText.setVisibility(View.GONE);
-
-            if (isSelctionNull)
-                holder.tvAssetValueEdit.setText(objBean.getBtnText());
-            else
-                holder.tvAssetValueEdit.setText(objBean.getSelectected());
-
-            if (mList.get(holder.getAdapterPosition()).getAttributeName().equalsIgnoreCase(spf.getString(AppConstants.MACID_LABLE, ""))
-                    ||
-                    mList.get(holder.getAdapterPosition()).getAttributeName().equalsIgnoreCase(mContext.getResources().getString(R.string.attribute_slc_id))) {
-
-                if (!mList.get(position).isClickable()) {
-                    //holder.tvAssetValueEdit.setEnabled(false);
-                    //Toast.makeText(mContext,"false",Toast.LENGTH_SHORT).show();
-                } else {
-                    //holder.tvAssetValueEdit.setEnabled(true);
-                    //Toast.makeText(mContext,"true",Toast.LENGTH_SHORT).show();
+                    if (isSelctionNull)
+                        holder.tvAssetValueDisplay.setText(objBean.getBtnText());
+                    else
+                        holder.tvAssetValueDisplay.setText(objBean.getSelectected());
                 }
 
-                holder.tvAssetKey.setTextSize(16);
-            }
+
+
+            } else {
+                if (objBean.getAttrKey().equals("notes")) {
+                    holder.tvAssetValueEdit.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            objMyCallbackPoleOption.onClickForControl(position, true, objBean.getNote());
+                        }
+                    });
+                }
+
+                holder.tvAssetValueDisplay.setVisibility(View.GONE);
+                holder.tvAssetValueEdit.setVisibility(View.VISIBLE);
+                holder.edtAssetValueEditText.setVisibility(View.GONE);
+
+                if (isSelctionNull)
+                    holder.tvAssetValueEdit.setText(objBean.getBtnText());
+                else
+                    holder.tvAssetValueEdit.setText(objBean.getSelectected());
+
+                if (mList.get(holder.getAdapterPosition()).getAttributeName().equalsIgnoreCase(spf.getString(AppConstants.MACID_LABLE, ""))
+                        ||
+                        mList.get(holder.getAdapterPosition()).getAttributeName().equalsIgnoreCase(mContext.getResources().getString(R.string.attribute_slc_id))) {
+
+                    if (!mList.get(position).isClickable()) {
+                        //holder.tvAssetValueEdit.setEnabled(false);
+                        //Toast.makeText(mContext,"false",Toast.LENGTH_SHORT).show();
+                    } else {
+                        //holder.tvAssetValueEdit.setEnabled(true);
+                        //Toast.makeText(mContext,"true",Toast.LENGTH_SHORT).show();
+                    }
+
+                    holder.tvAssetKey.setTextSize(16);
+                }
 
 
 
@@ -191,7 +207,7 @@ public class AssestEditAdapter extends RecyclerView.Adapter<AssestEditAdapter.My
                 }
             }
 */
-        }
+            }
 
       /*if(localUpdate)
             holder.tvAssetValueEdit.setText(objBean.getSelectected());
@@ -199,30 +215,27 @@ public class AssestEditAdapter extends RecyclerView.Adapter<AssestEditAdapter.My
             holder.tvAssetValueEdit.setText(objBean.getBtnText());
       */
 
-        holder.edtAssetValueEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                Log.i("---", "before" + s + " " + s.length());
-            }
+            holder.edtAssetValueEditText.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                Log.i("---", "onTextChanged" + s + " " + s.length() + " count" + count);
-            }
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                }
 
-            @Override
-            public void afterTextChanged(Editable s) {
-                Log.i("---", "afterTextChanged" + s + " " + s.length());
-                objBean.setBtnText(s.toString());
-                objBean.setSelectected(s.toString());
+                @Override
+                public void afterTextChanged(Editable s) {
+                    objBean.setBtnText(s.toString());
+                    objBean.setSelectected(s.toString());
 
-                SharedPreferences.Editor editor = spf.edit();
-                editor.putString("BtnText" + position, s.toString());
-                editor.putString("Selectected" + position, s.toString());
-                editor.apply();
+                    SharedPreferences.Editor editor = spf.edit();
+                    editor.putString("BtnText" + position, s.toString());
+                    editor.putString("Selectected" + position, s.toString());
+                    editor.apply();
 
-            }
-        });
+                }
+            });
 
 
     }
