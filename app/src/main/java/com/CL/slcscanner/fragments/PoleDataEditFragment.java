@@ -483,36 +483,7 @@ public class PoleDataEditFragment extends Fragment implements View.OnClickListen
         llPoleBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isNewData) {
-                    boolean isVisible = spf.getBoolean(AppConstants.SPF_POLE_ID_VISIBILITY, true);
-                    if (isVisible)
-                        objUtil.loadFragment(new PoleIdFragment(), getActivity());
-                    else {
-                        //loadFragment(new SelectLocationPoleFragment());
-                        //objUtil.loadFragment(new NoteFragment(), getActivity());
-                        String note_option = spf.getString(AppConstants.NOTES, "") + "#" + spf.getString(AppConstants.POLE_OPTION, "");
-                        Bundle mBundle = new Bundle();
-                        NoteFragment objNoteFragment = new NoteFragment();
-                        mBundle.putBoolean(AppConstants.ISVIEWONLY, false);
-                        mBundle.putString(AppConstants.FROM, "pole_data_edit");
-                        mBundle.putString(AppConstants.NOTES_POLE_OPTION, note_option);
-                        objNoteFragment.setArguments(mBundle);
-                        objUtil.loadFragment(objNoteFragment, getActivity());
-
-                    }
-                } else {
-                    FragmentManager fm = getFragmentManager();
-                    FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                    PoleDataDisplayFragment fragment = new PoleDataDisplayFragment();
-
-                    Bundle mBundle = new Bundle();
-                    mBundle.putString("ID", ID);
-                    mBundle.putBoolean("IS_FROM_MAP", isFromMap);
-                    fragment.setArguments(mBundle);
-                    //fragmentTransaction.addToBackStack("");
-                    fragmentTransaction.replace(R.id.frm1, fragment);
-                    fragmentTransaction.commit(); // save the changes
-                }
+               showConfirmationEditSlc(getActivity());
             }
         });
 
@@ -3290,6 +3261,62 @@ public class PoleDataEditFragment extends Fragment implements View.OnClickListen
         editor1.putBoolean("isClickable" + tempSlc, isSLCClickable);
         editor1.apply();
         mAdapter.notifyItemChanged(tempSlc, objBean);
+    }
+
+    void showConfirmationEditSlc(Activity activity) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        builder.setMessage(getString(R.string.confirmation_edit_ui))
+                .setCancelable(false)
+                .setTitle(getString(R.string.back_press_title_dialog))
+                .setPositiveButton(activity.getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+
+                        if (isNewData) {
+                            boolean isVisible = spf.getBoolean(AppConstants.SPF_POLE_ID_VISIBILITY, true);
+                            if (isVisible)
+                                objUtil.loadFragment(new PoleIdFragment(), getActivity());
+                            else {
+                                //loadFragment(new SelectLocationPoleFragment());
+                                //objUtil.loadFragment(new NoteFragment(), getActivity());
+                                String note_option = spf.getString(AppConstants.NOTES, "") + "#" + spf.getString(AppConstants.POLE_OPTION, "");
+                                Bundle mBundle = new Bundle();
+                                NoteFragment objNoteFragment = new NoteFragment();
+                                mBundle.putBoolean(AppConstants.ISVIEWONLY, false);
+                                mBundle.putString(AppConstants.FROM, "pole_data_edit");
+                                mBundle.putString(AppConstants.NOTES_POLE_OPTION, note_option);
+                                objNoteFragment.setArguments(mBundle);
+                                objUtil.loadFragment(objNoteFragment, getActivity());
+
+                            }
+                        } else {
+                            FragmentManager fm = getFragmentManager();
+                            FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                            PoleDataDisplayFragment fragment = new PoleDataDisplayFragment();
+
+                            Bundle mBundle = new Bundle();
+                            mBundle.putString("ID", ID);
+                            mBundle.putBoolean("IS_FROM_MAP", isFromMap);
+                            fragment.setArguments(mBundle);
+                            //fragmentTransaction.addToBackStack("");
+                            fragmentTransaction.replace(R.id.frm1, fragment);
+                            fragmentTransaction.commit(); // save the changes
+                        }
+
+                    }
+                });
+        builder.setNegativeButton(activity.getResources().getString(R.string.cancle), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        //Creating dialog box
+        AlertDialog alert = builder.create();
+        //Setting the title manuallyc
+        alert.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        alert.show();
     }
 }
 

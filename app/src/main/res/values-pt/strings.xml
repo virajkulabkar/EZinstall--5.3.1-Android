@@ -232,4 +232,5 @@
     <string name="node_type_break">TIPO DE NODE :</string>
     <string name="status_all">Todos</string>
     <string name="unknown">Unknown</string>
+    <string name="confirmation_edit_ui">Tem certeza que deseja sair, perderá seus dados?</string>
 </resources>

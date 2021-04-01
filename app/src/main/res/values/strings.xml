@@ -222,6 +222,7 @@
     <string name="cancel">Cancel</string>
     <string name="strNodeTypTitle">Select Node Type</string>
     <string name="unknown">Unknown</string>
+    <string name="confirmation_edit_ui">Are you sure you want to leave, you will lose your data</string>
 
 
 </resources>

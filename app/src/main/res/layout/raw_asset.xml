@@ -79,7 +79,9 @@
             android:textColor="@color/colorWhite"
             android:textColorHint="@color/colorWhite"
             android:textSize="@dimen/_10sdp"
-            android:visibility="gone"/>
+            android:visibility="gone"
+            android:cursorVisible="true"
+            />
 
     </LinearLayout>
 
