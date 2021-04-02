@@ -10,7 +10,10 @@ public class AppConstants {
     public static final String BASE_URL = "http://apps.cimconlighting.com/";
 
     //5.2.6 / 5.3.0 - api-v4
-    public static final String SUB_URL = "SLCScannerV2/api-v4/";//api-v3/";//api-v2/
+    //public static final String SUB_URL = "SLCScannerV2/api-v4/";//api-v3/";//api-v2/
+
+    //5.3.1 - api-v5
+    public static final String SUB_URL = "SLCScannerV2/api-v5/";
 
     //5.3.1 api-beta
     //public static final String SUB_URL = "SLCScannerV2/api-beta/";
@@ -241,6 +244,7 @@ public class AppConstants {
     public static final String TOKEN = "token";
     public static final String NODE_TYPE_DISPLAY_UI = "node_type_display_ui";
     public static final String VERSION = "VERSION";
+    public static final String SLC_TYPE = "slc_type";
 
 
 

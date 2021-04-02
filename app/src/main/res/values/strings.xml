@@ -223,6 +223,14 @@
     <string name="strNodeTypTitle">Select Node Type</string>
     <string name="unknown">Unknown</string>
     <string name="confirmation_edit_ui">Are you sure you want to leave, you will lose your data</string>
-
-
+    <string name="clear">CLEAR</string>
+    <string name="search">Search</string>
+    <string name="slc_type">SLC Type</string>
+    <string name="from_date">From Date</string>
+    <string name="to_date">To Date</string>
+    <string name="please_choose_from_date">Please choose from date</string>
+    <string name="please_choose_slc_type">Please choose slc type</string>
+    <string name="all">All</string>
+    <string name="interal">Internal</string>
+    <string name="external">External</string>
 </resources>

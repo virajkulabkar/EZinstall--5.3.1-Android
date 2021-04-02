@@ -1,12 +1,15 @@
 package com.CL.slcscanner.fragments;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.hardware.fingerprint.FingerprintManager;
@@ -18,6 +21,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -51,9 +56,13 @@ import com.CL.slcscanner.Utils.MyCallbackForControl;
 import com.CL.slcscanner.Utils.MyCallbackForMapUtility;
 import com.CL.slcscanner.Utils.MyCallbackForMapUtilityLocation;
 import com.CL.slcscanner.Utils.Util;
+import com.google.android.material.textfield.TextInputEditText;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -96,6 +105,30 @@ public class PoleDataFragment extends Fragment implements MyCallbackForControl, 
     @BindView(R.id.llnode_type)
     LinearLayout llnode_type;
 
+    @BindView(R.id.ivFilter)
+    ImageView ivFilter;
+
+    @BindView(R.id.btnSearch)
+    Button btnSearch;
+
+    @BindView(R.id.btnClear)
+    Button btnClear;
+
+    @BindView(R.id.edtSearch)
+    TextInputEditText edtSearch;
+
+    @BindView(R.id.edtType)
+    TextInputEditText edtType;
+
+    @BindView(R.id.edtTo)
+    TextInputEditText edtTo;
+
+    @BindView(R.id.edtFrom)
+    TextInputEditText edtFrom;
+
+    @BindView(R.id.llFilter)
+            LinearLayout llFilter;
+
     PoleAdapter mAdapter;
     API objApi;
 
@@ -135,6 +168,10 @@ public class PoleDataFragment extends Fragment implements MyCallbackForControl, 
     ArrayList<com.CL.slcscanner.Pojo.Login.Datum> mClientType;
     ProgressDialog dialog_wait;
     int totalcount = 0;
+
+    Calendar myCalendarFrom, myCalendarTo;
+    String myFormat;
+    SimpleDateFormat sdf;
 
     @Override
     public void onAttach(Context context) {
@@ -182,6 +219,9 @@ public class PoleDataFragment extends Fragment implements MyCallbackForControl, 
         dialogForLatlong = new ProgressDialog(getActivity());
         dialogForLatlong.setMessage(getResources().getString(R.string.please_wait));
         dialogForLatlong.setCancelable(false);
+
+        myFormat = "MM/dd/yyyy"; //In which you need put here
+        sdf = new SimpleDateFormat(myFormat, Locale.US);
 
         spf = getActivity().getSharedPreferences(AppConstants.SPF, Context.MODE_PRIVATE);
         token = spf.getString(AppConstants.TOKEN, "");
@@ -304,7 +344,7 @@ public class PoleDataFragment extends Fragment implements MyCallbackForControl, 
             public void onClick(View view) {
                 objUtil.ShowNodeTypeDialog(mClientType, getResources().getString(R.string.strNodeTypTitle), getActivity(), spf, AppConstants.LIST_SLC_UI, new Util.ClickNodeType() {
                     @Override
-                    public void setOnClickNodeType(Datum objOnClickLampType,int position) {
+                    public void setOnClickNodeType(Datum objOnClickLampType, int position) {
                         apiCall(objSearchView.getQuery().toString(), false, 1);
                         tvNodeType.setText(objOnClickLampType.getClientType());
                     }
@@ -316,12 +356,94 @@ public class PoleDataFragment extends Fragment implements MyCallbackForControl, 
 
         //apiCall(objSearchView.getQuery().toString(), false, 1);
 
-        SharedPreferences.Editor edit=spf.edit();
+        SharedPreferences.Editor edit = spf.edit();
         edit.remove(AppConstants.SELECTED_NODE_TYPE_EDIT_SLC);
         edit.remove(AppConstants.SELECTED_NODE_TYPE_INDEX_EDIT_SLC);
         edit.apply();
 
+        defualtDates();
+        edtTo.setOnClickListener(view -> {
+            if (!edtFrom.getText().toString().equalsIgnoreCase("")) {
+                myCalendarTo = Calendar.getInstance();
+                DatePickerDialog objDatePickerDialog =
+                        new DatePickerDialog(getActivity(), enddate, myCalendarTo
+                                .get(Calendar.YEAR), myCalendarTo.get(Calendar.MONTH),
+                                myCalendarTo.get(Calendar.DAY_OF_MONTH));
+                objDatePickerDialog.getDatePicker().setMinDate(myCalendarFrom.getTimeInMillis());
+                objDatePickerDialog.getDatePicker().setMaxDate(myCalendarTo.getTimeInMillis());
+                objDatePickerDialog.show();
+            } else {
+                Util.dialogForMessage(getActivity(), getResources().getString(R.string.please_choose_from_date));
+            }
+        });
+        edtFrom.setOnClickListener(view -> {
+            myCalendarFrom = Calendar.getInstance();
+            DatePickerDialog objDatePickerDialogFrom =
+                    new DatePickerDialog(getActivity(), startdate, myCalendarFrom
+                            .get(Calendar.YEAR), myCalendarFrom.get(Calendar.MONTH),
+                            myCalendarFrom.get(Calendar.DAY_OF_MONTH));
+            objDatePickerDialogFrom.getDatePicker().setMaxDate(myCalendarFrom.getTimeInMillis());
+            objDatePickerDialogFrom.show();
+        });
+        edtType.setOnClickListener(view -> {
+            ShowDialog(spf.getInt(AppConstants.SLC_TYPE,0));
+        });
+        ivFilter.setOnClickListener(view ->{
+            if(llFilter.getVisibility()==View.VISIBLE) {
+                llFilter.setVisibility(View.GONE);
+                edtFrom.getText().clear();
+                edtTo.getText().clear();
+                edtSearch.getText().clear();
+                edtType.getText().clear();
+            }
+            else {
+                llFilter.setVisibility(View.VISIBLE);
+            }
+        });
+
     }
+
+    void defualtDates() {
+        //logic
+        // now 02-04-2021 so startdate 27-3-2021 enddate: 02-04-2021
+
+        //Default:
+        myCalendarFrom = Calendar.getInstance();
+        myCalendarFrom.add(Calendar.DATE, -7);
+        String startDate = sdf.format(myCalendarFrom.getTime()); // 2 day before from now
+        edtFrom.setText(startDate);
+
+        myCalendarTo = Calendar.getInstance();
+        //myCalendarTo.add(Calendar.DATE,-1);
+        String endDate = sdf.format(myCalendarTo.getTime()); // 1 day before from now
+        edtTo.setText(endDate);
+        Log.i(AppConstants.TAG, "Start Date: " + startDate + "Default EndDate: " + endDate);
+    }
+
+    DatePickerDialog.OnDateSetListener startdate = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+            // TODO Auto-generated method stub
+            myCalendarFrom = Calendar.getInstance();
+            myCalendarFrom.set(Calendar.YEAR, year);
+            myCalendarFrom.set(Calendar.MONTH, monthOfYear);
+            myCalendarFrom.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            edtFrom.setText(sdf.format(myCalendarFrom.getTime()));
+        }
+    };
+
+    DatePickerDialog.OnDateSetListener enddate = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker view, int year, int monthOfYear,
+                              int dayOfMonth) {
+            // TODO Auto-generated method stub
+            myCalendarTo = Calendar.getInstance();
+            myCalendarTo.set(Calendar.YEAR, year);
+            myCalendarTo.set(Calendar.MONTH, monthOfYear);
+            myCalendarTo.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            edtTo.setText(sdf.format(myCalendarTo.getTime()));
+        }
+    };
 
     private void request6plus() {
         if (!Util.hasPermissions(getActivity(), PERMISSIONS)) {
@@ -331,6 +453,52 @@ public class PoleDataFragment extends Fragment implements MyCallbackForControl, 
             getLocation();
         }
     }
+
+    String slc_type;
+    void ShowDialog(final int position) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        View view = inflater.inflate(R.layout.dialog_title, null);
+
+        TextView tvTitle1 = view.findViewById(R.id.tvDialogTitle1);
+        TextView tvTitle2 = view.findViewById(R.id.tvDialogTitle2);
+        tvTitle2.setVisibility(View.VISIBLE);
+        tvTitle1.setVisibility(View.GONE);
+
+        tvTitle2.setText(getString(R.string.please_choose_slc_type));
+        builder.setCustomTitle(view);
+        //builder.setTitle(title);
+
+        int selectedIndex = 0;
+
+        final String[] ary = {getString(R.string.all),getString(R.string.interal),getString(R.string.external)};
+        builder.setSingleChoiceItems(ary, selectedIndex, (dialog, which) -> {
+
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    dialog.dismiss();
+                }
+            }, 500);
+
+            slc_type=ary[which];
+            spf.edit().putInt(AppConstants.SLC_TYPE,which).apply();
+
+        });
+
+        builder.setNegativeButton(getResources().getString(R.string.cancle), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        // create and show the alert dialog
+        AlertDialog dialogSelection = builder.create();
+        dialogSelection.show();
+    }
+
 
     private void request6less() {
         getLocation();
@@ -504,7 +672,7 @@ public class PoleDataFragment extends Fragment implements MyCallbackForControl, 
                     ||
                     spf.getString(AppConstants.SELECTED_NODE_TYPE_LIST, "").equalsIgnoreCase(getString(R.string.unknown))
             ) {
-                node_type ="";
+                node_type = "";
             } else {
                 node_type = spf.getString(AppConstants.SELECTED_NODE_TYPE_LIST, "");
             }
@@ -522,7 +690,14 @@ public class PoleDataFragment extends Fragment implements MyCallbackForControl, 
                     }
                     String strPg = String.valueOf(pg);
                     //node_type
-                    objApi.getFilterData(user_id, searchString, strPg, lat, lng,"").enqueue(objCallback);
+                    objApi.getFilterData(user_id,
+                            searchString,
+                            strPg,
+                            lat,
+                            lng,
+                            "",
+                            edtType.getText().toString(), edtFrom.getText().toString(),
+                            edtTo.getText().toString()).enqueue(objCallback);
 
                     /*if (searchString.toString().equalsIgnoreCase(""))
                         objApi.getSLCID(user_id, strPg, lat, lng).enqueue(objCallback);
@@ -589,12 +764,12 @@ public class PoleDataFragment extends Fragment implements MyCallbackForControl, 
         //mAdapter.getFilter().filter(newText);
         //objProgressDialog.show();
 
-            spf.edit().putString("search_text", newText).apply();
-            if (newText.toString().trim().equalsIgnoreCase("")) {
-                Util.hideKeyboard(getActivity());
-                apiCall("", false, 1);
-                Log.i("***", "onQueryTextChange");
-            }
+        spf.edit().putString("search_text", newText).apply();
+        if (newText.toString().trim().equalsIgnoreCase("")) {
+            Util.hideKeyboard(getActivity());
+            apiCall("", false, 1);
+            Log.i("***", "onQueryTextChange");
+        }
 
         return false;
     }
@@ -628,6 +803,7 @@ public class PoleDataFragment extends Fragment implements MyCallbackForControl, 
     public void onStop() {
         super.onStop();
         // Log.i(AppConstants.TAG2, "onStop");
+        spf.edit().putInt(AppConstants.SLC_TYPE,0).apply();
     }
 
     @Override
@@ -658,6 +834,7 @@ public class PoleDataFragment extends Fragment implements MyCallbackForControl, 
     public void onClickForControl(Double Lat, Double longgitude, float accuracy) {
 
     }
+
 }
 
         /*if (query.toString().equalsIgnoreCase(""))

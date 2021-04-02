@@ -228,4 +228,14 @@
     <string name="status_all">Todo</string>
     <string name="unknown">Unknown</string>
     <string name="confirmation_edit_ui">¿Estás seguro de que quieres irte, perderás tus datos?</string>
+    <string name="clear">DESPEJAR</string>
+    <string name="search">Buscar</string>
+    <string name="slc_type">SLC Type</string>
+    <string name="from_date">From Date</string>
+    <string name="to_date">To Date</string>
+    <string name="please_choose_from_date">Por favor seleccione una fecha inicial</string>
+    <string name="please_choose_slc_type">Elija el tipo de slc</string>
+    <string name="all">All</string>
+    <string name="interal">Internal</string>
+    <string name="external">External</string>
 </resources>

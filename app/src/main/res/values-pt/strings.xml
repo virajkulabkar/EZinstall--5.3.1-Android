@@ -233,4 +233,14 @@
     <string name="status_all">Todos</string>
     <string name="unknown">Unknown</string>
     <string name="confirmation_edit_ui">Tem certeza que deseja sair, perderá seus dados?</string>
+    <string name="clear">CLARO</string>
+    <string name="search">Procurar</string>
+    <string name="slc_type">SLC Type</string>
+    <string name="from_date">From Date</string>
+    <string name="to_date">To Date</string>
+    <string name="please_choose_from_date">Por favor, escolha a data De</string>
+    <string name="please_choose_slc_type">Por favor, escolha o tipo slc</string>
+    <string name="all">All</string>
+    <string name="interal">Internal</string>
+    <string name="external">External</string>
 </resources>

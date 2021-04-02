@@ -96,8 +96,16 @@ public interface API {
     ///{node_type} ,@Path("node_type") String node_type
     @FormUrlEncoded
     @POST(API_SLC_LIST + "/{user_id}/{page_number}/{lat}/{lng}")
-    Call<ListResponse> getFilterData(@Path("user_id") String user_id, @Field("search") String searchKey, @Path("page_number") String pg, @Path("lat") String lat, @Path("lng") String lng,
-                                     @Field("node_type") String node_type);
+    Call<ListResponse> getFilterData(@Path("user_id") String user_id,
+                                     @Field("search") String searchKey,
+                                     @Path("page_number") String pg,
+                                     @Path("lat") String lat,
+                                     @Path("lng") String lng,
+                                     @Field("node_type") String node_type,
+                                     @Field("slc_type") String slc_type,
+                                     @Field("from_daterange") String from_daterange,
+                                     @Field("to_daterange") String to_daterange
+                                     );
 
     @GET(API_SLC_DETAIL + "/{id}/{unit_type}")
     Call<PoleDisplayMaster> getSLCDetails(@Path("id") String id, @Path("unit_type") String unit_type);
