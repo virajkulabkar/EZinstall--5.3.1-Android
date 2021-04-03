@@ -1,6 +1,5 @@
 package com.CL.slcscanner.fragments;
 
-import android.Manifest;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Fragment;
@@ -12,8 +11,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.hardware.fingerprint.FingerprintManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 
@@ -23,7 +20,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -40,10 +36,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.CL.slcscanner.Activities.LoginActivity;
 import com.CL.slcscanner.Adapter.PoleAdapter;
 import com.CL.slcscanner.Networking.API;
-import com.CL.slcscanner.Pojo.ClientType.ClientType;
 import com.CL.slcscanner.Pojo.ListResponse.ListResponse;
 import com.CL.slcscanner.Pojo.Login.Datum;
 import com.CL.slcscanner.R;
@@ -66,7 +60,6 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.internal.Utils;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -127,7 +120,7 @@ public class PoleDataFragment extends Fragment implements MyCallbackForControl, 
     TextInputEditText edtFrom;
 
     @BindView(R.id.llFilter)
-            LinearLayout llFilter;
+    LinearLayout llFilter;
 
     PoleAdapter mAdapter;
     API objApi;
@@ -327,7 +320,9 @@ public class PoleDataFragment extends Fragment implements MyCallbackForControl, 
                 swpRefresshPole.setRefreshing(false);
             }, 2500);
 
+            resetFilter();
             apiCall(objSearchView.getQuery().toString(), true, 1);
+
         });
         spf.edit().putString(AppConstants.SPF_POLE_CURRENT_FRAG, AppConstants.SPF_POLE_LIST_FRAG).apply();
 
@@ -361,7 +356,7 @@ public class PoleDataFragment extends Fragment implements MyCallbackForControl, 
         edit.remove(AppConstants.SELECTED_NODE_TYPE_INDEX_EDIT_SLC);
         edit.apply();
 
-        defualtDates();
+        defaultDates();
         edtTo.setOnClickListener(view -> {
             if (!edtFrom.getText().toString().equalsIgnoreCase("")) {
                 myCalendarTo = Calendar.getInstance();
@@ -391,19 +386,25 @@ public class PoleDataFragment extends Fragment implements MyCallbackForControl, 
         ivFilter.setOnClickListener(view ->{
             if(llFilter.getVisibility()==View.VISIBLE) {
                 llFilter.setVisibility(View.GONE);
-                edtFrom.getText().clear();
-                edtTo.getText().clear();
-                edtSearch.getText().clear();
-                edtType.getText().clear();
             }
-            else {
+            else
                 llFilter.setVisibility(View.VISIBLE);
-            }
         });
-
+        btnClear.setOnClickListener(view ->{
+            resetFilter();
+            apiCall(query, false, 1);
+        });
     }
 
-    void defualtDates() {
+    void resetFilter(){
+        edtFrom.getText().clear();
+        edtTo.getText().clear();
+        edtSearch.getText().clear();
+        edtType.getText().clear();
+        defaultDates();
+    }
+
+    void defaultDates() {
         //logic
         // now 02-04-2021 so startdate 27-3-2021 enddate: 02-04-2021
 
@@ -469,10 +470,8 @@ public class PoleDataFragment extends Fragment implements MyCallbackForControl, 
         builder.setCustomTitle(view);
         //builder.setTitle(title);
 
-        int selectedIndex = 0;
-
         final String[] ary = {getString(R.string.all),getString(R.string.interal),getString(R.string.external)};
-        builder.setSingleChoiceItems(ary, selectedIndex, (dialog, which) -> {
+        builder.setSingleChoiceItems(ary, position, (dialog, which) -> {
 
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
@@ -484,6 +483,7 @@ public class PoleDataFragment extends Fragment implements MyCallbackForControl, 
 
             slc_type=ary[which];
             spf.edit().putInt(AppConstants.SLC_TYPE,which).apply();
+            edtType.setText(slc_type);
 
         });
 
@@ -691,12 +691,13 @@ public class PoleDataFragment extends Fragment implements MyCallbackForControl, 
                     String strPg = String.valueOf(pg);
                     //node_type
                     objApi.getFilterData(user_id,
-                            searchString,
+                            edtSearch.getText().toString(),
                             strPg,
                             lat,
                             lng,
                             "",
-                            edtType.getText().toString(), edtFrom.getText().toString(),
+                            edtType.getText().toString(),
+                            edtFrom.getText().toString(),
                             edtTo.getText().toString()).enqueue(objCallback);
 
                     /*if (searchString.toString().equalsIgnoreCase(""))
@@ -735,20 +736,7 @@ public class PoleDataFragment extends Fragment implements MyCallbackForControl, 
                 fragmentTransaction.commit(); // save the changes
             }
         }
-
     }
-
-   /* void dummyData() {
-        for (int i = 0; i < 5; i++) {
-            Datum objDatum = new Datum();
-            objDatum.setPoleId("Pole ID " + i);
-            objDatum.setSlcId("SLC ID" + i);
-            objDatum.setMacAddress("MAC ID" + i);
-
-            mList.add(objDatum);
-        }
-        mAdapter.notifyDataSetChanged();
-    }*/
 
     @Override
     public boolean onQueryTextSubmit(String query) {
@@ -774,22 +762,13 @@ public class PoleDataFragment extends Fragment implements MyCallbackForControl, 
         return false;
     }
 
-    private void loadFragment(Fragment fragment) {
-        // create a FragmentManager
-        FragmentManager fm = getFragmentManager();
-        // create a FragmentTransaction to begin the transaction and replace the Fragment
-        FragmentTransaction fragmentTransaction = fm.beginTransaction();
-        // replace the FrameLayout with new Fragment
-        fragmentTransaction.replace(R.id.frm1, fragment);
-        fragmentTransaction.commit(); // save the changes
-    }
-
     @Override
     public void onResume() {
         super.onResume();
         Util.hideKeyboard(getActivity());
         mAdapter.notifyDataSetChanged();
         objSearchView.clearFocus();
+        edtSearch.clearFocus();
     }
 
 

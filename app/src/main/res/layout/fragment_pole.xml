@@ -74,7 +74,9 @@
             android:maxLines="1"
             android:textColor="@color/colorBlack"
             android:textColorHint="@color/colorGray"
-            android:textSize="@dimen/_12sdp" />
+            android:textSize="@dimen/_12sdp"
+            android:inputType="number"
+            />
 
         <FrameLayout
             android:layout_width="match_parent"
