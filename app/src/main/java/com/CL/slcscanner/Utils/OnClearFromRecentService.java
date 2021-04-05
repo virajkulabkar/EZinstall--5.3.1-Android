@@ -84,6 +84,7 @@ public class OnClearFromRecentService extends Service {
         edt.remove(AppConstants.isNoneChecked);
         edt.remove(AppConstants.LOCATION_ACCURACY);
         edt.remove(AppConstants.SATELLITE_COUNTS);
+        edt.remove(AppConstants.SLC_TYPE);
 
         edt.apply();
     }

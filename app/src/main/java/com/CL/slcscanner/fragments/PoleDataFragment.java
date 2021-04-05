@@ -27,7 +27,6 @@ import android.widget.ProgressBar;
 
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.core.app.ActivityCompat;
@@ -165,6 +164,8 @@ public class PoleDataFragment extends Fragment implements MyCallbackForControl, 
     Calendar myCalendarFrom, myCalendarTo;
     String myFormat;
     SimpleDateFormat sdf;
+
+    final String[] ary = {getString(R.string.all),getString(R.string.interal),getString(R.string.external)};
 
     @Override
     public void onAttach(Context context) {
@@ -380,6 +381,8 @@ public class PoleDataFragment extends Fragment implements MyCallbackForControl, 
             objDatePickerDialogFrom.getDatePicker().setMaxDate(myCalendarFrom.getTimeInMillis());
             objDatePickerDialogFrom.show();
         });
+
+        edtType.setText(ary[spf.getInt(AppConstants.SLC_TYPE,0)]);
         edtType.setOnClickListener(view -> {
             ShowDialog(spf.getInt(AppConstants.SLC_TYPE,0));
         });
@@ -455,7 +458,7 @@ public class PoleDataFragment extends Fragment implements MyCallbackForControl, 
         }
     }
 
-    String slc_type;
+
     void ShowDialog(final int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
@@ -470,7 +473,7 @@ public class PoleDataFragment extends Fragment implements MyCallbackForControl, 
         builder.setCustomTitle(view);
         //builder.setTitle(title);
 
-        final String[] ary = {getString(R.string.all),getString(R.string.interal),getString(R.string.external)};
+
         builder.setSingleChoiceItems(ary, position, (dialog, which) -> {
 
             Handler handler = new Handler();
@@ -481,9 +484,8 @@ public class PoleDataFragment extends Fragment implements MyCallbackForControl, 
                 }
             }, 500);
 
-            slc_type=ary[which];
             spf.edit().putInt(AppConstants.SLC_TYPE,which).apply();
-            edtType.setText(slc_type);
+            edtType.setText(ary[which]);
 
         });
 
