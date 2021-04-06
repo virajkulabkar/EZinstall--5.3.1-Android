@@ -104,8 +104,8 @@ public interface API {
                                      @Field("node_type") String node_type,
                                      @Field("slc_type") String slc_type,
                                      @Field("from_daterange") String from_daterange,
-                                     @Field("to_daterange") String to_daterange
-                                     );
+                                     @Field("to_daterange") String to_daterange);
+
 
     @GET(API_SLC_DETAIL + "/{id}/{unit_type}")
     Call<PoleDisplayMaster> getSLCDetails(@Path("id") String id, @Path("unit_type") String unit_type);

@@ -160,7 +160,6 @@
                     android:layout_marginBottom="@dimen/_1sdp"
                     android:gravity="center|left"
                     android:text="Title 2"
-                    android:maxLines="2"
                     android:ellipsize="end"
                     android:textColor="@color/colorWhite"
                     android:textSize="@dimen/_12sdp" />
