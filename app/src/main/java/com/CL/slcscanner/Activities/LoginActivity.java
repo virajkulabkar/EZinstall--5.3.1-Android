@@ -282,6 +282,16 @@ public class LoginActivity extends AppCompatActivity implements FingerprintHandl
                 if (b) {
                     edtEditor.putBoolean(AppConstants.IS_REMMEBER, true);
                     edtEditor.apply();
+
+                    SharedPreferences.Editor editor = spf.edit();
+                    String event_name = spf.getString(AppConstants.CLIENT_ID, null) + "_" + spf.getString(AppConstants.USER_ID, null) + "_";
+                    editor.putString(AppConstants.GLOBAL_EVENT_NAME, event_name);
+                    editor.apply();
+
+                    Bundle bundle=new Bundle();
+                    bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, event_name + "RememberMe");
+                    mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+                    Log.d(AppConstants.TAG, event_name+"RememberMe");
                 } else {
                     edtEditor.putBoolean(AppConstants.IS_REMMEBER, false);
                     edtEditor.remove(AppConstants.USERNAME);
@@ -694,6 +704,19 @@ public class LoginActivity extends AppCompatActivity implements FingerprintHandl
                         spf_login.edit().putString(AppConstants.TEMP_PASS, password).commit();
                         spfLogin.edit().putString(AppConstants.USERNAME, username).commit();
 
+                        SharedPreferences.Editor editor = spf.edit();
+                        String event_name = cleintid + "_" + userId + "_";
+                        editor.putString(AppConstants.GLOBAL_EVENT_NAME, event_name);
+                        editor.apply();
+
+                        Bundle bundle = new Bundle();
+                        if(isTocuhId){
+                            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, event_name + "LoginWithFingurePrint");
+                        }else {
+                            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, event_name + "Login");
+                        }
+                        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+                        Log.i(AppConstants.TAG, "Event:" + event_name);
 
                         //node type
                         /*List<Datum> objData = objCommonResponse.getNodeTypeLg().getData();

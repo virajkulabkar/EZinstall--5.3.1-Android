@@ -50,6 +50,7 @@ import com.CL.slcscanner.Utils.DBHelper;
 import com.CL.slcscanner.Utils.ScannerCallBack;
 import com.CL.slcscanner.Utils.Util;
 import com.google.android.material.appbar.AppBarLayout;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.zxing.Result;
 
 import java.util.ArrayList;
@@ -103,6 +104,8 @@ public class ScanMacId extends Fragment {
     FrameLayout frmNode;
     ArrayList<com.CL.slcscanner.Pojo.Login.Datum> mClientType;
     String nodeType;
+    private FirebaseAnalytics mFirebaseAnalytics;
+    String event_name;
 
     @Nullable
     @Override
@@ -112,6 +115,10 @@ public class ScanMacId extends Fragment {
         if (mBundle != null) {
             isfromeditui = mBundle.getBoolean(AppConstants.ISFROMBACK);
         }
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
+        event_name = spf.getString(AppConstants.CLIENT_ID, null) + "_" + spf.getString(AppConstants.USER_ID, null) + "_";
+
         objUtil = new Util();
         appBarMainn = getActivity().findViewById(R.id.appBarMainn);
         appBarMainn.setVisibility(View.VISIBLE);
@@ -225,6 +232,7 @@ public class ScanMacId extends Fragment {
         edit.remove(AppConstants.SELECTED_NODE_TYPE_SAVE);
         edit.remove(AppConstants.SELECTED_NODE_TYPE_INDEX_SAVE);
         edit.apply();
+
         return mScannerView;
     }
 
@@ -400,6 +408,11 @@ public class ScanMacId extends Fragment {
                btConfirm.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        Bundle bundle=new Bundle();
+                        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, event_name + "ScanUIDConfirm");
+                        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+                        Log.d(AppConstants.TAG, event_name+"ScanUIDConfirm");
+
                         confirmMacIDCall(etMacId);
                     }
                 });
@@ -414,6 +427,10 @@ public class ScanMacId extends Fragment {
                         mScannerView.setAutoFocus(mAutoFocus);
                         isfromeditui = false;
                         isShowPrevious = false;
+                        Bundle bundle=new Bundle();
+                        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, event_name + "ScanUIDCancel");
+                        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+                        Log.d(AppConstants.TAG, event_name+"ScanUIDCancel");
                     }
                 });
 

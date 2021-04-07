@@ -344,4 +344,7 @@ public class AppConstants {
     public static final String isFromScannerForEdit="isfromscannerforedit";
     public static final String NODE_TYPE_SCANNER_EDIT_MAC = "node_type_scanner_edit_mac";
     public static String isPermission="isPermission";
+
+    public static final String GLOBAL_EVENT_NAME ="global_event_name";
+
 }

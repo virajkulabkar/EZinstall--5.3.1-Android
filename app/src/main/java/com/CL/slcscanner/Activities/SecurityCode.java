@@ -35,6 +35,7 @@ import com.CL.slcscanner.Utils.AppConstants;
 import com.CL.slcscanner.Utils.Util;
 import com.bumptech.glide.Glide;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.UUID;
 
@@ -76,6 +77,7 @@ public class SecurityCode extends AppCompatActivity {
 
     boolean isPermissionGranted = false;
     boolean isRemeber = false;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -102,6 +104,8 @@ public class SecurityCode extends AppCompatActivity {
         Log.i(AppConstants.TAG,"Security UI: "+langCode);
 
         objApi = new SLCScanner().networkCall();
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         Util.hideKeyboard(SecurityCode.this);
         //Util.showKeyobard(SecurityCode.this);
@@ -320,6 +324,11 @@ public class SecurityCode extends AppCompatActivity {
                             spf.edit().putBoolean(AppConstants.SPF_OTHER_DATA_VISIBILITY, true).apply();
                         }
 
+                        String event_name = objCheckUniqueCode.getClientID()+ "_" + "SecurityCode";
+                        Bundle bundle = new Bundle();
+                        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, event_name);
+                        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+                        Log.d(AppConstants.TAG, event_name);
 
                     } else if (objCheckUniqueCode.getStatus().toString().equals("error")) {
                         Util.dialogForMessage(SecurityCode.this, objCheckUniqueCode.getMsg().toString());

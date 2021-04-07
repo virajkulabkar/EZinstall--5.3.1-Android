@@ -51,6 +51,7 @@ import com.CL.slcscanner.Utils.MyCallbackForMapUtility;
 import com.CL.slcscanner.Utils.MyCallbackForMapUtilityLocation;
 import com.CL.slcscanner.Utils.Util;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -171,6 +172,9 @@ public class PoleDataFragment extends Fragment implements MyCallbackForControl, 
 
     String[] ary;
     String startDateStr,endDateStr;
+    private FirebaseAnalytics mFirebaseAnalytics;
+    String event_name;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -215,6 +219,8 @@ public class PoleDataFragment extends Fragment implements MyCallbackForControl, 
         mClientType = new ArrayList<>();
         Util.hideKeyboard(getActivity());
 
+
+
         dialogForLatlong = new ProgressDialog(getActivity());
         dialogForLatlong.setMessage(getResources().getString(R.string.please_wait));
         dialogForLatlong.setCancelable(false);
@@ -226,6 +232,9 @@ public class PoleDataFragment extends Fragment implements MyCallbackForControl, 
         token = spf.getString(AppConstants.TOKEN, "");
 
         isPoleClickable = spf.getString(AppConstants.SPF_CLIENT_SLC_LIST_VIEW, "Yes");
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
+        event_name = spf.getString(AppConstants.CLIENT_ID, null) + "_" + spf.getString(AppConstants.USER_ID, null) + "_";
 
         mDatabase = new DBHelper(getActivity());
         objUtil = new Util();
@@ -366,6 +375,13 @@ public class PoleDataFragment extends Fragment implements MyCallbackForControl, 
 
         edtTo.setOnClickListener(view -> {
             if (!edtFrom.getText().toString().equalsIgnoreCase("")) {
+
+
+                Bundle bundle=new Bundle();
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, event_name + "ToDate");
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+                Log.d(AppConstants.TAG, event_name+"ToDate");
+
                 DatePickerDialog objDatePickerDialog =
                         new DatePickerDialog(getActivity(), enddate, myCalendarTo
                                 .get(Calendar.YEAR), myCalendarTo.get(Calendar.MONTH),
@@ -378,6 +394,11 @@ public class PoleDataFragment extends Fragment implements MyCallbackForControl, 
             }
         });
         edtFrom.setOnClickListener(view -> {
+            Bundle bundle=new Bundle();
+            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, event_name + "FromDate");
+            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+            Log.d(AppConstants.TAG, event_name+"FromDate");
+
             DatePickerDialog objDatePickerDialogFrom =
                     new DatePickerDialog(getActivity(), startdate, myCalendarFrom
                             .get(Calendar.YEAR), myCalendarFrom.get(Calendar.MONTH),
@@ -389,21 +410,38 @@ public class PoleDataFragment extends Fragment implements MyCallbackForControl, 
         edtType.setText(ary[spf.getInt(AppConstants.SLC_TYPE,0)]);
         edtType.setOnClickListener(view -> {
             ShowDialog(spf.getInt(AppConstants.SLC_TYPE,0));
+            Bundle bundle=new Bundle();
+            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, event_name + "SLCType");
+            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+            Log.d(AppConstants.TAG, event_name+"SLCType");
         });
         ivFilter.setOnClickListener(view ->{
             if(llFilter.getVisibility()==View.VISIBLE) {
                 llFilter.setVisibility(View.GONE);
             }
-            else
+            else {
                 llFilter.setVisibility(View.VISIBLE);
+                Bundle bundle=new Bundle();
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, event_name + "SearchFilter");
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+                Log.d(AppConstants.TAG, event_name+"SearchFilter");
+            }
         });
         btnClear.setOnClickListener(view ->{
             resetFilter();
             apiCall(query, false, 1);
+            Bundle bundle=new Bundle();
+            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, event_name + "SearchClear");
+            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+            Log.d(AppConstants.TAG, event_name+"SearchClear");
         });
 
         btnSearch.setOnClickListener(view -> {
             apiCall(query, false, 1);
+            Bundle bundle=new Bundle();
+            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, event_name + "ListNavigationSearch");
+            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+            Log.d(AppConstants.TAG, event_name+"ListNavigationSearch");
         });
 
     }
