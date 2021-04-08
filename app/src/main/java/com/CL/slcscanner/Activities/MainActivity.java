@@ -61,6 +61,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -150,7 +151,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     };
     private static final int PERMISSION_ALL = 1;
     boolean isAllPermissionGranted;
-
+    private FirebaseAnalytics mFirebaseAnalytics;
+    String event_name;
+    Bundle bundleFB;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -169,6 +172,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         clientId = spf.getString(AppConstants.CLIENT_ID, "");
         userId = spf.getString(AppConstants.USER_ID, "");
         objFusedLocationUtils = new FusedLocationUtils(MainActivity.this, this, null, true);
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(MainActivity.this);
+        event_name = spf.getString(AppConstants.CLIENT_ID, null) + "_" + spf.getString(AppConstants.USER_ID, null) + "_";
 
         boolean isLangSelected = spf.getBoolean(AppConstants.LANGUAGE_SELECTED, false);
         String langCode = spf.getString(AppConstants.LANGUAGE_LOCALE, AppConstants.LANGUAGE_CODE_ENGLISH);
@@ -225,7 +231,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         //if (isAllPermissionGranted)
-            navigation();
+        navigation();
 
     }
 
@@ -348,62 +354,73 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (view.getId()) {
             case R.id.llScan:
 
-                    String result = spf.getString(AppConstants.SPF_SCANNER_CURRENT_FRAG, "");
+                bundleFB = new Bundle();
+                bundleFB.putString(FirebaseAnalytics.Param.ITEM_NAME, event_name + "ScanNavigationClick");
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundleFB);
+                Log.d(AppConstants.TAG, event_name + "ScanNavigationClick");
 
-                    spf.edit().putString(AppConstants.SPF_SLECTED_TAB, AppConstants.SCAN_TAB_SELECTED).apply();
+                String result = spf.getString(AppConstants.SPF_SCANNER_CURRENT_FRAG, "");
 
-                    if (result.equals(AppConstants.SPF_POLEID_FRAG)) {
-                        objUtil.loadFragment(new PoleIdFragment(), MainActivity.this);
-                    } else if (result.equals(AppConstants.SPF_SLCID_FRAG)) {
-                        objUtil.loadFragment(new SLCIdFragment(), MainActivity.this);
-                    } else if (result.equals(AppConstants.SPF_SELECT_POLE_LOCATION_FRAG)) {
-                        objUtil.loadFragment(new SelectLocationPoleFragment(), MainActivity.this);
-                    } else if (result.equals(AppConstants.SPF_ADDRESS_FRAG)) {
-                        objUtil.loadFragment(new AddressFragement(), MainActivity.this);
-                    } else if (result.equals(AppConstants.SPF_CAMERA_FRAG)) {
-                        objUtil.loadFragment(new CameraPreviewFragment(), MainActivity.this);
-                    } else if (result.equals(AppConstants.SPF_NOTE_FRAGMENT)) {
-                        Bundle mBundle = new Bundle();
-                        NoteFragment objNoteFragment = new NoteFragment();
-                        mBundle.putBoolean(AppConstants.ISVIEWONLY, false);
-                        mBundle.putString(AppConstants.FROM, "main");
-                        objNoteFragment.setArguments(mBundle);
-                        objUtil.loadFragment(objNoteFragment, MainActivity.this);
-                    } else if (result.equals(AppConstants.SPF_SLC_ID_SCANNER_FRAG)) {
-                        objUtil.loadFragment(new ScanSLCId(), MainActivity.this);
-                    } else if (result.equals(AppConstants.SPF_POLE_EDIT_FRAG)) {
-                        FragmentManager fm = getFragmentManager();
-                        FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                        PoleDataEditFragment fragment = new PoleDataEditFragment();
-                        Bundle bundle = new Bundle();
-                        bundle.putBoolean("isNewData", true);
-                        bundle.putBoolean("IS_FROM_MAP", false);
-                        bundle.putString("ID", "");
-                        bundle.putString("slcID", spf.getString(AppConstants.SPF_TEMP_SLCID, ""));
-                        bundle.putString("poleId", spf.getString(AppConstants.SPF_TEMP_POLE_ID, ""));
-                        bundle.putDouble("Lat", Double.valueOf(spf.getString(AppConstants.SPF_DRAG_LATTITUDE, "0.0")));
-                        bundle.putDouble("Long", Double.valueOf(spf.getString(AppConstants.SPF_DRAG_LONGITUDE, "0.0")));
-                        bundle.putString("MacId", spf.getString(AppConstants.SPF_TEMP_MACID, ""));
-                        bundle.putBoolean(AppConstants.isfromNote, false);
+                spf.edit().putString(AppConstants.SPF_SLECTED_TAB, AppConstants.SCAN_TAB_SELECTED).apply();
 
-                        fragment.setArguments(bundle);
-                        fragmentTransaction.replace(R.id.frm1, fragment);
-                        fragmentTransaction.commit(); // save the changes
-                    } else {
-                        //objUtil.loadFragment(new CameraPreviewFragment(), MainActivity.this);
-                        objUtil.loadFragment(new ScanMacId(), MainActivity.this);
-                    }
-                    selectScan(true);
-                    selectPole(false);
-                    selectSetting(false);
-                    selectMap(false);
+                if (result.equals(AppConstants.SPF_POLEID_FRAG)) {
+                    objUtil.loadFragment(new PoleIdFragment(), MainActivity.this);
+                } else if (result.equals(AppConstants.SPF_SLCID_FRAG)) {
+                    objUtil.loadFragment(new SLCIdFragment(), MainActivity.this);
+                } else if (result.equals(AppConstants.SPF_SELECT_POLE_LOCATION_FRAG)) {
+                    objUtil.loadFragment(new SelectLocationPoleFragment(), MainActivity.this);
+                } else if (result.equals(AppConstants.SPF_ADDRESS_FRAG)) {
+                    objUtil.loadFragment(new AddressFragement(), MainActivity.this);
+                } else if (result.equals(AppConstants.SPF_CAMERA_FRAG)) {
+                    objUtil.loadFragment(new CameraPreviewFragment(), MainActivity.this);
+                } else if (result.equals(AppConstants.SPF_NOTE_FRAGMENT)) {
+                    Bundle mBundle = new Bundle();
+                    NoteFragment objNoteFragment = new NoteFragment();
+                    mBundle.putBoolean(AppConstants.ISVIEWONLY, false);
+                    mBundle.putString(AppConstants.FROM, "main");
+                    objNoteFragment.setArguments(mBundle);
+                    objUtil.loadFragment(objNoteFragment, MainActivity.this);
+                } else if (result.equals(AppConstants.SPF_SLC_ID_SCANNER_FRAG)) {
+                    objUtil.loadFragment(new ScanSLCId(), MainActivity.this);
+                } else if (result.equals(AppConstants.SPF_POLE_EDIT_FRAG)) {
+                    FragmentManager fm = getFragmentManager();
+                    FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                    PoleDataEditFragment fragment = new PoleDataEditFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putBoolean("isNewData", true);
+                    bundle.putBoolean("IS_FROM_MAP", false);
+                    bundle.putString("ID", "");
+                    bundle.putString("slcID", spf.getString(AppConstants.SPF_TEMP_SLCID, ""));
+                    bundle.putString("poleId", spf.getString(AppConstants.SPF_TEMP_POLE_ID, ""));
+                    bundle.putDouble("Lat", Double.valueOf(spf.getString(AppConstants.SPF_DRAG_LATTITUDE, "0.0")));
+                    bundle.putDouble("Long", Double.valueOf(spf.getString(AppConstants.SPF_DRAG_LONGITUDE, "0.0")));
+                    bundle.putString("MacId", spf.getString(AppConstants.SPF_TEMP_MACID, ""));
+                    bundle.putBoolean(AppConstants.isfromNote, false);
+
+                    fragment.setArguments(bundle);
+                    fragmentTransaction.replace(R.id.frm1, fragment);
+                    fragmentTransaction.commit(); // save the changes
+                } else {
+                    //objUtil.loadFragment(new CameraPreviewFragment(), MainActivity.this);
+                    objUtil.loadFragment(new ScanMacId(), MainActivity.this);
+                }
+                selectScan(true);
+                selectPole(false);
+                selectSetting(false);
+                selectMap(false);
 
                 break;
 
             case R.id.llPole:
 
-                    String result1 = spf.getString(AppConstants.SPF_POLE_CURRENT_FRAG, "");
-                    spf.edit().putString(AppConstants.SPF_SLECTED_TAB, AppConstants.LIST_TAB_SELECTED).apply();
+                bundleFB = new Bundle();
+                bundleFB.putString(FirebaseAnalytics.Param.ITEM_NAME, event_name + "ListNavigationSearch");
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundleFB);
+                Log.d(AppConstants.TAG, event_name + "ListNavigationSearch");
+
+
+                String result1 = spf.getString(AppConstants.SPF_POLE_CURRENT_FRAG, "");
+                spf.edit().putString(AppConstants.SPF_SLECTED_TAB, AppConstants.LIST_TAB_SELECTED).apply();
 
               /*  if (result1.toString().equals(AppConstants.SPF_POLE_EDIT_FRAG) || result1.toString().equals(AppConstants.SPF_SCANNER_EDIT_FRAG)) {
 
@@ -428,20 +445,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     fragmentTransaction.commit(); // save the changes
                 } else */
 
-                    if (result1.toString().equals(AppConstants.SPF_POLE_ALL_MAP) || (result1.toString().equals(AppConstants.SPF_POLE_DISPLAY_FRAG))) {
-                        objUtil.loadFragment(new PoleDataFragment(), MainActivity.this);
-                    } else
-                        objUtil.loadFragment(new PoleDataFragment(), MainActivity.this);
+                if (result1.toString().equals(AppConstants.SPF_POLE_ALL_MAP) || (result1.toString().equals(AppConstants.SPF_POLE_DISPLAY_FRAG))) {
+                    objUtil.loadFragment(new PoleDataFragment(), MainActivity.this);
+                } else
+                    objUtil.loadFragment(new PoleDataFragment(), MainActivity.this);
 
-                    //loadFragment(new SelectLocationPoleFragment());
-                    selectScan(false);
-                    selectPole(true);
-                    selectSetting(false);
-                    selectMap(false);
+                //loadFragment(new SelectLocationPoleFragment());
+                selectScan(false);
+                selectPole(true);
+                selectSetting(false);
+                selectMap(false);
 
                 break;
 
             case R.id.llSettings:
+                bundleFB = new Bundle();
+                bundleFB.putString(FirebaseAnalytics.Param.ITEM_NAME, event_name + "Settings");
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundleFB);
+                Log.d(AppConstants.TAG, event_name + "Settings");
+
                 spf.edit().putString(AppConstants.SPF_SLECTED_TAB, AppConstants.SETTING_TAB_SELECTED).apply();
                 objUtil.loadFragment(new SettingFragment(), MainActivity.this);
                 //loadFragmentWithBackStack(new SettingFragment());
@@ -449,6 +471,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 selectPole(false);
                 selectSetting(true);
                 selectMap(false);
+
                 break;
 
             case R.id.llHelp:
@@ -462,11 +485,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.llMap:
 
-                    objUtil.loadFragment(new AllPoleSLCMapFragment(), MainActivity.this);
-                    selectScan(false);
-                    selectPole(false);
-                    selectSetting(false);
-                    selectMap(true);
+                bundleFB = new Bundle();
+                bundleFB.putString(FirebaseAnalytics.Param.ITEM_NAME, event_name + "Map");
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundleFB);
+                Log.d(AppConstants.TAG, event_name + "Map");
+
+                objUtil.loadFragment(new AllPoleSLCMapFragment(), MainActivity.this);
+                selectScan(false);
+                selectPole(false);
+                selectSetting(false);
+                selectMap(true);
                 break;
 
         }

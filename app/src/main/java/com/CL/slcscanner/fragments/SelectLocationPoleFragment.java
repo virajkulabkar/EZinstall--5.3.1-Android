@@ -50,6 +50,7 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -164,6 +165,9 @@ public class SelectLocationPoleFragment extends Fragment implements View.OnClick
     int scount;
     float meters;
 
+    private FirebaseAnalytics mFirebaseAnalytics;
+    String event_name;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -192,6 +196,9 @@ public class SelectLocationPoleFragment extends Fragment implements View.OnClick
         new Util().hideKeyboard(getActivity());
         imgInfoView.setVisibility(View.GONE);
 
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
+        event_name = spf.getString(AppConstants.CLIENT_ID, null) + "_" + spf.getString(AppConstants.USER_ID, null) + "_";
+        mFirebaseAnalytics.setCurrentScreen(getActivity(), "MapDragPinUI", null);
         //objFusedLocationUtils=new FusedLocationUtils(getActivity(),this,this,true);
 
         dialogForLatlong = new ProgressDialog(getActivity());
@@ -351,6 +358,11 @@ public class SelectLocationPoleFragment extends Fragment implements View.OnClick
         switch (v.getId()) {
 
             case R.id.llSelectLocationBack:
+
+                Bundle bundle=new Bundle();
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, event_name + "LocationBack");
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+                Log.d(AppConstants.TAG, event_name+"LocationBack");
                 if (from.equalsIgnoreCase("MACID")) {
                     objUtil.loadFragment(new ScanMacId(), getActivity());
                 } else {
@@ -384,6 +396,10 @@ public class SelectLocationPoleFragment extends Fragment implements View.OnClick
 
                 break;
             case R.id.btnAcceptPoleLocation:
+                Bundle bundle1=new Bundle();
+                bundle1.putString(FirebaseAnalytics.Param.ITEM_NAME, event_name + "LocationAccept");
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle1);
+                Log.d(AppConstants.TAG, event_name+"LocationAccept");
                 objUtil.loadFragment(new AddressFragement(), getActivity());
                 break;
             case R.id.ivInfo:
@@ -391,10 +407,18 @@ public class SelectLocationPoleFragment extends Fragment implements View.OnClick
                 break;
             case R.id.ivAccuracyInfo:
             case R.id.llAccuracy:
+                Bundle bundle3=new Bundle();
+                bundle3.putString(FirebaseAnalytics.Param.ITEM_NAME, event_name + "LocationAccuracy");
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle3);
+                Log.d(AppConstants.TAG, event_name+"LocationAccuracy");
                 Util.dialogForMapInfo(getActivity(), getResources().getString(R.string.accuracy_str), getResources().getString(R.string.accuracy_msg));
                 break;
             case R.id.ivSatellitesInfo:
             case R.id.llSatellites:
+                Bundle bundle4=new Bundle();
+                bundle4.putString(FirebaseAnalytics.Param.ITEM_NAME, event_name + "LocationStrength");
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle4);
+                Log.d(AppConstants.TAG, event_name+"LocationStrength");
                 Util.dialogForMapInfo(getActivity(), getResources().getString(R.string.satellite_str), getResources().getString(R.string.satellite_msg));
                 break;
         }

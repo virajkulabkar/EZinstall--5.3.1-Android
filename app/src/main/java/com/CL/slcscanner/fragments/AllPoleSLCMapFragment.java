@@ -60,6 +60,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.VisibleRegion;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.maps.android.MarkerManager;
 import com.google.maps.android.SphericalUtil;
 
@@ -176,9 +177,11 @@ public class AllPoleSLCMapFragment extends Fragment implements
     String bottom_lon;
     String bottom_lat;
 
-
     //library for cluster manager
     //ClusterManager<com.CL.slcscanner.Pojo.ListResponse.List> clusterManagerLib;
+
+    private FirebaseAnalytics mFirebaseAnalytics;
+    String event_name;
 
     @Nullable
     @Override
@@ -219,6 +222,10 @@ public class AllPoleSLCMapFragment extends Fragment implements
 
         mCustomMarkerView = ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.custom_marker, null);
         marker_image = mCustomMarkerView.findViewById(R.id.marker_image);
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
+        event_name = spf.getString(AppConstants.CLIENT_ID, null) + "_" + spf.getString(AppConstants.USER_ID, null) + "_";
+        mFirebaseAnalytics.setCurrentScreen(getActivity(), "MapPolePinUI", null);
 
         //tvTitle.setText(getResources().getString(R.string.installation));
         tvTitle.setText(getResources().getString(R.string.mapsetting));
@@ -710,12 +717,24 @@ public class AllPoleSLCMapFragment extends Fragment implements
         public void onInfoWindowClick(Marker marker) {
             Log.d(AppConstants.TAG, "----");
             try {
+
+                Bundle bundle1=new Bundle();
+                bundle1.putString(FirebaseAnalytics.Param.ITEM_NAME, event_name + "MapPinDetails");
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle1);
+                Log.d(AppConstants.TAG, event_name+"MapPinDetails");
+
                 net.sharewire.googlemapsclustering.Cluster objCluster = (net.sharewire.googlemapsclustering.Cluster) marker.getTag();
                 if (objCluster.getItems().size() != 0) {
 
                     com.CL.slcscanner.Pojo.ListResponse.List clusterItem = (com.CL.slcscanner.Pojo.ListResponse.List) objCluster.getItems().get(0);
 
                     if (isPoleDetailVisibility.equalsIgnoreCase("Yes")) {
+
+                        Bundle bundle=new Bundle();
+                        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, event_name + "SLCDetails");
+                        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+                        Log.d(AppConstants.TAG, event_name+"SLCDetails");
+
                         //String text[] = marker.getTitle().split("#");
                         //String id = text[1];
                         // com.CL.slcscanner.Pojo.ListResponse.List mData = (com.CL.slcscanner.Pojo.ListResponse.List) marker.getTag();
@@ -839,6 +858,11 @@ public class AllPoleSLCMapFragment extends Fragment implements
             final TextView tvInfo = view.findViewById(R.id.tvInfo);
             final TextView tvtitle2 = view.findViewById(R.id.tvtitle2);
             final ImageView ivInfo = view.findViewById(R.id.ivInfo);
+
+            Bundle bundle=new Bundle();
+            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, event_name + "MapPinInfo");
+            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+            Log.d(AppConstants.TAG, event_name+"MapPinInfo");
 
             try {
                 net.sharewire.googlemapsclustering.Cluster objCluster = (net.sharewire.googlemapsclustering.Cluster) marker.getTag();

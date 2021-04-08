@@ -52,6 +52,7 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
@@ -186,6 +187,9 @@ public class PoleDataDisplayFragment extends Fragment implements AssestDisplayAd
     String node_type;
     boolean isPoleIdVisible;
 
+    private FirebaseAnalytics mFirebaseAnalytics;
+    String event_name;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -216,11 +220,16 @@ public class PoleDataDisplayFragment extends Fragment implements AssestDisplayAd
         isEditViewVisible = spf.getString(AppConstants.SPF_CLIENT_SLC_EDIT_VIEW, "Yes");
         llSLCPOLEID.setVisibility(View.GONE);
 
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
+        event_name = spf.getString(AppConstants.CLIENT_ID, null) + "_" + spf.getString(AppConstants.USER_ID, null) + "_";
+        mFirebaseAnalytics.setCurrentScreen(getActivity(), "SLCDetailUI", null);
+
         //isPoleIdVisible=spf.getBoolean(AppConstants.SPF_POLE_ID_VISIBILITY,false);
         String isPoleCompulsary = spf.getString(AppConstants.SPF_CLIENT_SLC_POLE_ID, "No");
-        if(isPoleCompulsary.equalsIgnoreCase("No")){
+        if (isPoleCompulsary.equalsIgnoreCase("No")) {
             tvIDPOLEId.setVisibility(View.GONE);
-        }else{
+        } else {
             tvIDPOLEId.setVisibility(View.VISIBLE);
         }
 
@@ -279,6 +288,13 @@ public class PoleDataDisplayFragment extends Fragment implements AssestDisplayAd
         llPoleDisplayBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
+                Bundle bundle = new Bundle();
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, event_name + "SLCDetailsBack");
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+                Log.d(AppConstants.TAG, event_name + "SLCDetailsBack");
+
                 if (isFromMap) {
                     //getActivity().onBackPressed();
                     objUtil.loadFragment(new AllPoleSLCMapFragment(), getActivity());
@@ -301,6 +317,11 @@ public class PoleDataDisplayFragment extends Fragment implements AssestDisplayAd
         btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Bundle bundle1 = new Bundle();
+                bundle1.putString(FirebaseAnalytics.Param.ITEM_NAME, event_name + "SLCDetailsEdit");
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle1);
+                Log.d(AppConstants.TAG, event_name + "SLCDetailsEdit");
 
                 // create a FragmentManager
                 FragmentManager fm = getFragmentManager();
@@ -346,6 +367,11 @@ public class PoleDataDisplayFragment extends Fragment implements AssestDisplayAd
         ivPoleDisplayMap.setOnClickListener(new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View v) {
+
+                                                    Bundle bundle = new Bundle();
+                                                    bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, event_name + "SLCDetailsPin");
+                                                    mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+                                                    Log.d(AppConstants.TAG, event_name + "SLCDetailsPin");
                                                     dialog_map();
                                                 }
                                             }
@@ -361,6 +387,10 @@ public class PoleDataDisplayFragment extends Fragment implements AssestDisplayAd
         btnImgDisplayCamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Bundle bundle1=new Bundle();
+                bundle1.putString(FirebaseAnalytics.Param.ITEM_NAME, event_name + "SLCDetailsImage");
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle1);
+                Log.d(AppConstants.TAG, event_name+"SLCDetailsImage");
                 dialogCammera();
             }
         });
@@ -417,6 +447,11 @@ public class PoleDataDisplayFragment extends Fragment implements AssestDisplayAd
                 //upload to server
                 //UploadSelectedImage();
                 dialog_cammera.dismiss();
+
+                Bundle bundle1=new Bundle();
+                bundle1.putString(FirebaseAnalytics.Param.ITEM_NAME, event_name + "SLCDetailsImageOK");
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle1);
+                Log.d(AppConstants.TAG, event_name+"SLCDetailsImageOK");
             }
         });
 
@@ -499,6 +534,11 @@ public class PoleDataDisplayFragment extends Fragment implements AssestDisplayAd
         dialogButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Bundle bundle = new Bundle();
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, event_name + "SLCDetailsMapOK");
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+                Log.d(AppConstants.TAG, event_name + "SLCDetailsMapOK");
                 dialog.dismiss();
             }
         });
@@ -759,25 +799,24 @@ public class PoleDataDisplayFragment extends Fragment implements AssestDisplayAd
             //spf.edit().putString(AppConstants.POLE_OPTION, pole_option.toString()).apply();
             //Log.i(AppConstants.TAG,"---*"+pole_option.toString());
 
-            String tempNodeType=objData.getString("node_type");
+            String tempNodeType = objData.getString("node_type");
             if (tempNodeType.toString().equals(""))
-                node_type =getString(R.string.unknown);
+                node_type = getString(R.string.unknown);
             else
-                node_type =tempNodeType;
+                node_type = tempNodeType;
 
             String isPoleCompulsary = spf.getString(AppConstants.SPF_CLIENT_SLC_POLE_ID, "No");
-            if(isPoleCompulsary.toString().equalsIgnoreCase("yes")) {
+            if (isPoleCompulsary.toString().equalsIgnoreCase("yes")) {
                 tvIDPOLEId.setVisibility(View.VISIBLE);
                 tvIDPOLEId.setText(getResources().getString(R.string.pole_id) + " : " + poleId);
-            }else{
+            } else {
                 tvIDPOLEId.setVisibility(View.GONE);
             }
 
 
-
             tvIDSLCId.setText(getResources().getString(R.string.slc_id) + " : " + slcId);
             tvIDMACId.setText(spf.getString(AppConstants.MACID_LABLE, "NA") + " : " + macID);
-            tvIDNodeType.setText(getString(R.string.node_type_break) + " " +node_type);
+            tvIDNodeType.setText(getString(R.string.node_type_break) + " " + node_type);
 
             JSONArray objAssets = objData.getJSONArray("Assets");
             Log.i(AppConstants.TAG, "objAssests:" + objAssets.length());
@@ -793,18 +832,17 @@ public class PoleDataDisplayFragment extends Fragment implements AssestDisplayAd
                         || AttributeName.toLowerCase().equalsIgnoreCase(AppConstants.POLE_IMAGE_ANAME_PT)
                 ) {
                     spf.edit().putString(AppConstants.pole_image_key, AttKey).apply();
-                }else if(AttributeName.toLowerCase().equalsIgnoreCase(AppConstants.POLE_ID_ANAME)
+                } else if (AttributeName.toLowerCase().equalsIgnoreCase(AppConstants.POLE_ID_ANAME)
                         || AttributeName.toLowerCase().equalsIgnoreCase(AppConstants.POLE_ID_ANAME_SPANISH)
-                        || AttributeName.toLowerCase().equalsIgnoreCase(AppConstants.POLE_ID_ANAME_PT)){
+                        || AttributeName.toLowerCase().equalsIgnoreCase(AppConstants.POLE_ID_ANAME_PT)) {
                     //nothing
                     spf.edit().putString(AppConstants.pole_id_key, AttKey).apply();
 
-                }else if(AttributeName.toLowerCase().equalsIgnoreCase(AppConstants.POLE_NOTES_ANAME)
+                } else if (AttributeName.toLowerCase().equalsIgnoreCase(AppConstants.POLE_NOTES_ANAME)
                         || AttributeName.toLowerCase().equalsIgnoreCase(AppConstants.POLE_NOTES_ANAME_SPANISH)
-                        || AttributeName.toLowerCase().equalsIgnoreCase(AppConstants.POLE_NOTES_ANAME_PT)){
+                        || AttributeName.toLowerCase().equalsIgnoreCase(AppConstants.POLE_NOTES_ANAME_PT)) {
                     spf.edit().putString(AppConstants.pole_notes_key, AttKey).apply();
-                }
-                else {
+                } else {
 
                     Asset objAsset = new Asset();
                     objAsset.setAssetName(objAssets.getJSONObject(i).getString("AssetName"));

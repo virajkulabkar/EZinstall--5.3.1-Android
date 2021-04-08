@@ -38,6 +38,7 @@ import com.CL.slcscanner.R;
 import com.CL.slcscanner.SLCScanner;
 import com.CL.slcscanner.Utils.AppConstants;
 import com.CL.slcscanner.Utils.Util;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -126,6 +127,9 @@ public class NoteFragment extends Fragment implements View.OnClickListener {
     ProgressDialog dialog_save;
     ArrayList<com.CL.slcscanner.Pojo.ClientAssets.Datum> mListAssets;
 
+    private FirebaseAnalytics mFirebaseAnalytics;
+    String event_name;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -149,6 +153,10 @@ public class NoteFragment extends Fragment implements View.OnClickListener {
         adapter = new NoteAdapter(getActivity(), objNote, isViewOnly);
 
         mListAssets = new ArrayList<>();
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
+        event_name = spf.getString(AppConstants.CLIENT_ID, null) + "_" + spf.getString(AppConstants.USER_ID, null) + "_";
+        mFirebaseAnalytics.setCurrentScreen(getActivity(), "NoteUI", null);
 
         lattitude = Double.valueOf(spf.getString(AppConstants.SPF_DRAG_LATTITUDE, "0.0"));
         longitude = Double.valueOf(spf.getString(AppConstants.SPF_DRAG_LONGITUDE, "0.0"));
@@ -330,6 +338,11 @@ public class NoteFragment extends Fragment implements View.OnClickListener {
                 //spf.edit().remove(AppConstants.NOTES).apply();
                 //spf.edit().remove(AppConstants.POLE_OPTION).apply();
 
+                Bundle bundle=new Bundle();
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, event_name + "NoteSkip");
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+                Log.d(AppConstants.TAG, event_name+"NoteSkip");
+
                 try {
                     collectNotes(false, true, false);
                 } catch (JSONException e) {
@@ -337,6 +350,10 @@ public class NoteFragment extends Fragment implements View.OnClickListener {
                 }
                 break;
             case R.id.ivNext:
+                Bundle bundle1=new Bundle();
+                bundle1.putString(FirebaseAnalytics.Param.ITEM_NAME, event_name + "NotesSave");
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle1);
+                Log.d(AppConstants.TAG, event_name+"NotesSave");
                 try {
                     if (from.toString().equals("edit"))
                         collectNotes(true, false, false);
@@ -347,6 +364,10 @@ public class NoteFragment extends Fragment implements View.OnClickListener {
                 }
                 break;
             case R.id.ivUpdate:
+                Bundle bundle2=new Bundle();
+                bundle2.putString(FirebaseAnalytics.Param.ITEM_NAME, event_name + "NotesSave");
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle2);
+                Log.d(AppConstants.TAG, event_name+"NotesSave");
                 try {
                     collectNotes(true, false, false);
                     //collectNotes(false, false,true);
@@ -356,6 +377,10 @@ public class NoteFragment extends Fragment implements View.OnClickListener {
                 break;
 
             case R.id.btnPoleMap:
+                Bundle bundle3=new Bundle();
+                bundle3.putString(FirebaseAnalytics.Param.ITEM_NAME, event_name + "NotesBack");
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle3);
+                Log.d(AppConstants.TAG, event_name+"NotesBack");
                 try {
                     collectNotes(false, false, true);
                 } catch (JSONException e) {
@@ -428,6 +453,11 @@ public class NoteFragment extends Fragment implements View.OnClickListener {
                 isNewData = false;
             } else if (from.toString().equals("display")) {
 
+                Bundle bundle=new Bundle();
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, event_name + "SLCDetails");
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+                Log.d(AppConstants.TAG, event_name+"SLCDetails");
+
                 PoleDataDisplayFragment objNoteFragment = new PoleDataDisplayFragment();
 
                 Bundle mBundle = new Bundle();
@@ -441,8 +471,14 @@ public class NoteFragment extends Fragment implements View.OnClickListener {
             } else {
                 if (isCameraPreview.equalsIgnoreCase("Yes")) {
                     objUtil.loadFragment(new CameraPreviewFragment(), getActivity());
-                } else
+                } else {
                     objUtil.loadFragment(new AddressFragement(), getActivity());
+
+                    Bundle bundle=new Bundle();
+                    bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, event_name + "Address");
+                    mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+                    Log.d(AppConstants.TAG, event_name+"Address");
+                }
             }
 
         } else {

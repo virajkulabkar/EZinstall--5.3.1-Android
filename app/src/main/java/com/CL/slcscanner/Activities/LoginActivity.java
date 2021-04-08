@@ -174,7 +174,8 @@ public class LoginActivity extends AppCompatActivity implements FingerprintHandl
         spfLogin = getSharedPreferences(AppConstants.SPF_LOGIN, MODE_PRIVATE);
         ButterKnife.bind(this);
         reset();
-
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(LoginActivity.this);
+        mFirebaseAnalytics.setCurrentScreen(this, "LoginUI", null);
         objFusedLocationUtils = new FusedLocationUtils(LoginActivity.this, this, null, false);
 
         temp_pass = spf_login.getString(AppConstants.TEMP_PASS, "");

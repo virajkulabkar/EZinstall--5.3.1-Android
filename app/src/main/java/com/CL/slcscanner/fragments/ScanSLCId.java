@@ -43,6 +43,7 @@ import com.CL.slcscanner.Utils.AppConstants;
 import com.CL.slcscanner.Utils.ScannerCallBack;
 import com.CL.slcscanner.Utils.Util;
 import com.google.android.material.appbar.AppBarLayout;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.zxing.Result;
 
 import java.util.ArrayList;
@@ -103,6 +104,8 @@ public class ScanSLCId extends Fragment {
     String token;
     ArrayList<com.CL.slcscanner.Pojo.Login.Datum> mClientType;
     String node_type;
+    private FirebaseAnalytics mFirebaseAnalytics;
+    String event_name;
 
     @Nullable
     @Override
@@ -123,8 +126,12 @@ public class ScanSLCId extends Fragment {
 
         spf = getActivity().getSharedPreferences(AppConstants.SPF, Context.MODE_PRIVATE);
 
-        tvPoleEditBack = getActivity().findViewById(R.id.tvPoleEditBack);
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
+        event_name = spf.getString(AppConstants.CLIENT_ID, null) + "_" + spf.getString(AppConstants.USER_ID, null) + "_";
 
+        mFirebaseAnalytics.setCurrentScreen(getActivity(), "ScanSLCUidUI", null);
+
+        tvPoleEditBack = getActivity().findViewById(R.id.tvPoleEditBack);
         appBarMainn = getActivity().findViewById(R.id.appBarMainn);
         appBarMainn.setVisibility(View.VISIBLE);
 
@@ -202,6 +209,10 @@ public class ScanSLCId extends Fragment {
         iv_edit_mac.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Bundle bundle=new Bundle();
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, event_name + "ScanSLCID");
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+                Log.d(AppConstants.TAG, event_name+"ScanSLCID");
                 if (isfromeditui)
                     isShowPrevious = true;
                 ShowDialogSlcID(getActivity(), "");

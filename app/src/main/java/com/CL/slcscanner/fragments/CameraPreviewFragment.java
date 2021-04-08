@@ -52,6 +52,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import org.json.JSONObject;
 
@@ -141,6 +142,9 @@ public class CameraPreviewFragment extends Fragment implements View.OnClickListe
 
     Util objUtil;
 
+    private FirebaseAnalytics mFirebaseAnalytics;
+    String event_name;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -172,6 +176,9 @@ public class CameraPreviewFragment extends Fragment implements View.OnClickListe
 
         mList = new ArrayList<>();
 
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
+        event_name = spf.getString(AppConstants.CLIENT_ID, null) + "_" + spf.getString(AppConstants.USER_ID, null) + "_";
+        mFirebaseAnalytics.setCurrentScreen(getActivity(), "CameraUI", null);
         //isCopyFromPrevious = spf.getBoolean(AppConstants.CopyFromPrevious, false);
         Util.deletePreviewFile(getActivity());
 
@@ -272,6 +279,11 @@ public class CameraPreviewFragment extends Fragment implements View.OnClickListe
                 objUtil.loadFragment(new AddressFragement(), getActivity());
                 break;
             case R.id.ivSelectImage:
+                Bundle bundle=new Bundle();
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, event_name + "CameraSelect");
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+                Log.d(AppConstants.TAG, event_name+"CameraSelect");
+
                 selectImage();
                 break;
 
@@ -286,6 +298,11 @@ public class CameraPreviewFragment extends Fragment implements View.OnClickListe
 
             case R.id.ivOk:
             case R.id.ivNext:
+
+                Bundle bundle1=new Bundle();
+                bundle1.putString(FirebaseAnalytics.Param.ITEM_NAME, event_name + "CameraSkip");
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle1);
+                Log.d(AppConstants.TAG, event_name+"CameraSkip");
 
                 Bundle mBundle = new Bundle();
                 NoteFragment objNoteFragment = new NoteFragment();

@@ -117,7 +117,6 @@ public class ScanMacId extends Fragment {
         }
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
-        event_name = spf.getString(AppConstants.CLIENT_ID, null) + "_" + spf.getString(AppConstants.USER_ID, null) + "_";
 
         objUtil = new Util();
         appBarMainn = getActivity().findViewById(R.id.appBarMainn);
@@ -164,6 +163,9 @@ public class ScanMacId extends Fragment {
         spf = getActivity().getSharedPreferences(AppConstants.SPF, Context.MODE_PRIVATE);
         client_id = spf.getString(AppConstants.CLIENT_ID, "");
         user_id = spf.getString(AppConstants.USER_ID, "");
+
+        event_name = spf.getString(AppConstants.CLIENT_ID, null) + "_" + spf.getString(AppConstants.USER_ID, null) + "_";
+        mFirebaseAnalytics.setCurrentScreen(getActivity(), "ScanMacUidUI", null);
 
         Fragment currentFragment = getFragmentManager().findFragmentById(R.id.frm1);
         Log.i(AppConstants.TAG, "isadded:" + isAdded() + "is visible" + isVisible());

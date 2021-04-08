@@ -43,6 +43,7 @@ import com.CL.slcscanner.R;
 import com.CL.slcscanner.SLCScanner;
 import com.CL.slcscanner.Utils.AppConstants;
 import com.CL.slcscanner.Utils.Util;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -118,6 +119,9 @@ public class AddressFragement extends Fragment implements View.OnClickListener {
 
     Util objUtil;
 
+    private FirebaseAnalytics mFirebaseAnalytics;
+    String event_name;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -157,6 +161,10 @@ public class AddressFragement extends Fragment implements View.OnClickListener {
         macId = spf.getString(AppConstants.SPF_TEMP_MACID, "");
         slcID = spf.getString(AppConstants.SPF_TEMP_SLCID, "");
         client_id = spf.getString(AppConstants.CLIENT_ID, "");
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
+        event_name = spf.getString(AppConstants.CLIENT_ID, null) + "_" + spf.getString(AppConstants.USER_ID, null) + "_";
+        mFirebaseAnalytics.setCurrentScreen(getActivity(), "AddressUI", null);
 
         //
         objApi = new SLCScanner().networkCall();
@@ -233,6 +241,10 @@ public class AddressFragement extends Fragment implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.btnCancleAddress:
                 //edtAddress.setText("");
+                Bundle bundle=new Bundle();
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, event_name + "AddressEdit");
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+                Log.d(AppConstants.TAG, event_name+"AddressEdit");
 
                 edtAddress.setSelection(edtAddress.getText().length());
                 Util.showKeyobard(getActivity());
@@ -242,6 +254,10 @@ public class AddressFragement extends Fragment implements View.OnClickListener {
 
                 break;
             case R.id.btnokAddress:
+                Bundle bundle1=new Bundle();
+                bundle1.putString(FirebaseAnalytics.Param.ITEM_NAME, event_name + "AddressConfirm");
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle1);
+                Log.d(AppConstants.TAG, event_name+"AddressConfirm");
 
                 if (!edtAddress.getText().toString().equals("")) {
                     spf.edit().putString(AppConstants.ADDRESS, edtAddress.getText().toString()).apply();
@@ -266,6 +282,10 @@ public class AddressFragement extends Fragment implements View.OnClickListener {
                 }
                 break;
             case R.id.llSLCBack:
+                Bundle bundle2=new Bundle();
+                bundle2.putString(FirebaseAnalytics.Param.ITEM_NAME, event_name + "AddressBack");
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle2);
+                Log.d(AppConstants.TAG, event_name+"AddressBack");
                 objUtil.loadFragment(new SelectLocationPoleFragment(), getActivity());
                 break;
         }

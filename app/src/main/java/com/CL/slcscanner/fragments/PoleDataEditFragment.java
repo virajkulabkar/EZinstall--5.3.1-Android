@@ -89,6 +89,7 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
@@ -274,6 +275,9 @@ public class PoleDataEditFragment extends Fragment implements View.OnClickListen
 
     String version;
 
+    private FirebaseAnalytics mFirebaseAnalytics;
+    String event_name;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -301,6 +305,9 @@ public class PoleDataEditFragment extends Fragment implements View.OnClickListen
         //notes = spf.getString(AppConstants.NOTES, "");
         isCopyFromPrevious = spf.getBoolean(AppConstants.CopyFromPrevious, false);
         slcStaus = spf.getString(AppConstants.SPF_TEMP_SLC_STATUS, AppConstants.EXTERNAL);
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
+        event_name = spf.getString(AppConstants.CLIENT_ID, null) + "_" + spf.getString(AppConstants.USER_ID, null) + "_";
 
         mList = new ArrayList<>();
         mAdapter = new AssestEditAdapter(getActivity(), mList, this, spf, this, isfromNote);
@@ -393,7 +400,7 @@ public class PoleDataEditFragment extends Fragment implements View.OnClickListen
             editor.apply();
 
             if (isNewData) {
-
+                mFirebaseAnalytics.setCurrentScreen(getActivity(), "SLCDetailSaveUI", null);
                 if (spf.getBoolean(AppConstants.SPF_POLE_ID_VISIBILITY, true)) {
                     tvPoleEditBack.setText(getResources().getString(R.string.pole_id));
                 } else {
@@ -411,7 +418,7 @@ public class PoleDataEditFragment extends Fragment implements View.OnClickListen
                     Util.dialogForMessage(getActivity(), getResources().getString(R.string.no_internet_connection));
 
             } else {
-
+                mFirebaseAnalytics.setCurrentScreen(getActivity(), "SLCEditUI", null);
                 tbTitleSkip.setVisibility(View.GONE);
                 ivPoleDisplayMap.setVisibility(View.VISIBLE);
                 ivImgUpload.setVisibility(View.GONE);
@@ -467,11 +474,23 @@ public class PoleDataEditFragment extends Fragment implements View.OnClickListen
                 if (Util.isInternetAvailable(getActivity())) {
                     int selectedId = segmentCopyFromPrevious.getCheckedRadioButtonId();
                     if (selectedId == R.id.btnYes) {
+
+                        Bundle bundle=new Bundle();
+                        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, event_name + "PoleDetailsSaveSegamentYes");
+                        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+                        Log.d(AppConstants.TAG, event_name+"PoleDetailsSaveSegamentYes");
+
                         isCopyFromPrevious = true;
                         spf.edit().putBoolean(AppConstants.CopyFromPrevious, true).apply();
 
                         getClientAssets(clientId, units, isCopyFromPrevious);
                     } else {
+                        Bundle bundle=new Bundle();
+                        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, event_name + "PoleDetailsSaveSegamentNo");
+                        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+                        Log.d(AppConstants.TAG, event_name+"PoleDetailsSaveSegamentNo");
+
+
                         isCopyFromPrevious = false;
                         spf.edit().putBoolean(AppConstants.CopyFromPrevious, false).apply();
                         getClientAssets(clientId, units, isCopyFromPrevious);
@@ -484,6 +503,11 @@ public class PoleDataEditFragment extends Fragment implements View.OnClickListen
         llPoleBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Bundle bundle=new Bundle();
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, event_name + "SLCDetailEditBack");
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+                Log.d(AppConstants.TAG, event_name+"SLCDetailEditBack");
+
                showConfirmationEditSlc(getActivity());
             }
         });
@@ -516,6 +540,12 @@ public class PoleDataEditFragment extends Fragment implements View.OnClickListen
         ivPoleDisplayMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Bundle bundle=new Bundle();
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, event_name + "SLCDetailEditMap");
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+                Log.d(AppConstants.TAG, event_name+"SLCDetailEditMap");
+
                 dialog_map();
             }
         });
@@ -723,6 +753,12 @@ public class PoleDataEditFragment extends Fragment implements View.OnClickListen
                         //toast.setGravity(Gravity.BOTTOM, 0, );
                         toast.show();
 
+
+                        Bundle bundle=new Bundle();
+                        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, event_name + "SLCDetails");
+                        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+                        Log.d(AppConstants.TAG, event_name+"SLCDetails");
+
                         FragmentManager fm = getFragmentManager();
                         FragmentTransaction fragmentTransaction = fm.beginTransaction();
                         PoleDataDisplayFragment fragment = new PoleDataDisplayFragment();
@@ -863,6 +899,11 @@ public class PoleDataEditFragment extends Fragment implements View.OnClickListen
 
                         //toast.setGravity(Gravity.BOTTOM, 0, );
                         toast.show();
+
+                        Bundle bundle=new Bundle();
+                        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, event_name + "SLCDetails");
+                        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+                        Log.d(AppConstants.TAG, event_name+"SLCDetails");
 
                         FragmentManager fm = getFragmentManager();
                         FragmentTransaction fragmentTransaction = fm.beginTransaction();
@@ -1126,6 +1167,10 @@ public class PoleDataEditFragment extends Fragment implements View.OnClickListen
         builder.setNegativeButton(getResources().getString(R.string.yes_camel_case), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                Bundle bundle=new Bundle();
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, event_name + "SLCDetailEditSave");
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+                Log.d(AppConstants.TAG, event_name+"SLCDetailEditSave");
                 SaveData();
             }
         });
@@ -1727,6 +1772,12 @@ public class PoleDataEditFragment extends Fragment implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tbTitleSkip:
+
+                Bundle bundle=new Bundle();
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, event_name + "PoleDetailsSaveSkip");
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+                Log.d(AppConstants.TAG, event_name+"PoleDetailsSaveSkip");
+
                 if (Util.isInternetAvailable(getActivity())) {
                     if (isDragPin) {
                         Lat = dragLat;
@@ -1779,6 +1830,11 @@ public class PoleDataEditFragment extends Fragment implements View.OnClickListen
 
                 break;
             case R.id.btnSave:
+                Bundle bundle1=new Bundle();
+                bundle1.putString(FirebaseAnalytics.Param.ITEM_NAME, event_name + "PoleDetailsSave");
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle1);
+                Log.d(AppConstants.TAG, event_name+"PoleDetailsSave");
+
                 if (Util.isInternetAvailable(getActivity())) {
                     if (isNewData)
                         SaveData();
@@ -1787,7 +1843,6 @@ public class PoleDataEditFragment extends Fragment implements View.OnClickListen
                 } else {
                     Util.dialogForMessage(getActivity(), getResources().getString(R.string.no_internet_connection));
                 }
-
                 break;
         }
     }
@@ -2094,6 +2149,11 @@ public class PoleDataEditFragment extends Fragment implements View.OnClickListen
             @Override
             public void onClick(View v) {
 
+                Bundle bundle=new Bundle();
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, event_name + "SLCDetailEditMapOK");
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+                Log.d(AppConstants.TAG, event_name+"SLCDetailEditMapOK");
+
                 if (Util.isInternetAvailable(getActivity())) {
                     if (isDragPin) {
                         //new GetAddress(dragLat, dragLong).execute();
@@ -2342,19 +2402,33 @@ public class PoleDataEditFragment extends Fragment implements View.OnClickListen
     @Override
     public void onClickForControl(int position, com.
             CL.slcscanner.Pojo.ClientAssets.Datum objBean) {
+
+        Bundle bundle=new Bundle();
+
+
         boolean flagForDialog = true;
         if (mList.get(position).getAttributeName().toString().equalsIgnoreCase(getString(R.string.attribute_date_of_installation))) {
+            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, event_name + "SLCDetailEditDate");
             DateTimePicker(position, objBean);
             flagForDialog = false;
-        } else if (mList.get(position).getAttributeName().equalsIgnoreCase(spf.getString(AppConstants.MACID_LABLE, "")))//getString(R.string.attribute_mac_id)
+        } else if (mList.get(position).getAttributeName().equalsIgnoreCase(spf.getString(AppConstants.MACID_LABLE, ""))) {//getString(R.string.attribute_mac_id)
+            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, event_name + "SLCDetailEditUID");
             flagForDialog = true;
-        else if (mList.get(position).getAttributeName().equalsIgnoreCase(getString(R.string.attribute_slc_id)))
+        }
+        else if (mList.get(position).getAttributeName().equalsIgnoreCase(getString(R.string.attribute_slc_id))) {
+            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, event_name + "SLCDetailEditSLCID");
             flagForDialog = true;
-        else if (mList.get(position).getAttributeName().equalsIgnoreCase(getString(R.string.attribute_pole_id)))
+        }
+        else if (mList.get(position).getAttributeName().equalsIgnoreCase(getString(R.string.attribute_pole_id))) {
+            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, event_name + "SLCDetailEditPoleID");
             flagForDialog = false;
-        else if (mList.get(position).getAttributeName().equalsIgnoreCase(getString(R.string.attribute_address)))
+        }
+        else if (mList.get(position).getAttributeName().equalsIgnoreCase(getString(R.string.attribute_address))) {
+            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, event_name + "SLCDetailEditAddress");
             flagForDialog = false;
+        }
 
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
 
         if (flagForDialog) {
             if (mList.get(position).getAttributeName().equalsIgnoreCase(spf.getString(AppConstants.MACID_LABLE, ""))) {//getString(R.string.attribute_mac_id)
@@ -2444,6 +2518,7 @@ public class PoleDataEditFragment extends Fragment implements View.OnClickListen
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.dilog_mac_id_edit, null);
         TextView tvMacLBL = view.findViewById(R.id.tvMacLBL);
+
 
 
         int tempSlcPostion = 1;
@@ -3081,6 +3156,11 @@ public class PoleDataEditFragment extends Fragment implements View.OnClickListen
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {
+            Bundle bundle=new Bundle();
+            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, event_name + "SLCDetailEditSaveImage");
+            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+            Log.d(AppConstants.TAG, event_name+"SLCDetailEditSaveImage");
+
             if (requestCode == SELECT_FILE)
                 onSelectFromGalleryResult(data);
             else if (requestCode == REQUEST_CAMERA)
@@ -3328,6 +3408,11 @@ public class PoleDataEditFragment extends Fragment implements View.OnClickListen
 
                             }
                         } else {
+                            Bundle bundle=new Bundle();
+                            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, event_name + "SLCDetails");
+                            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+                            Log.d(AppConstants.TAG, event_name+"SLCDetails");
+
                             FragmentManager fm = getFragmentManager();
                             FragmentTransaction fragmentTransaction = fm.beginTransaction();
                             PoleDataDisplayFragment fragment = new PoleDataDisplayFragment();

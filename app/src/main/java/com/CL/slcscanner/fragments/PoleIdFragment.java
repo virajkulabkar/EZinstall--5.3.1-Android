@@ -46,6 +46,7 @@ import com.CL.slcscanner.Utils.Util;
 import com.CL.slcscanner.Activities.MainActivity;
 import com.bumptech.glide.Glide;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import org.json.JSONObject;
 
@@ -137,6 +138,9 @@ public class PoleIdFragment extends Fragment {
     String GlobalSLCId = "";
     String version;
 
+    private FirebaseAnalytics mFirebaseAnalytics;
+    String event_name;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -171,6 +175,10 @@ public class PoleIdFragment extends Fragment {
         isCameraPreview = spf.getString(AppConstants.SPF_CLIENT_SLC_POLE_IMAGE_VIEW, "Yes");
         isEditVisible = spf.getString(AppConstants.SPF_CLIENT_SLC_EDIT_VIEW, "Yes");
         isAssetViewVisible = spf.getString(AppConstants.SPF_CLIENT_SLC_POLE_ASSETS_VIEW, "Yes");
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
+        event_name = spf.getString(AppConstants.CLIENT_ID, null) + "_" + spf.getString(AppConstants.USER_ID, null) + "_";
+        mFirebaseAnalytics.setCurrentScreen(getActivity(), "PoleIdUI", null);
 
         //isCopyFromPrevious = spf.getBoolean(AppConstants.CopyFromPrevious, false);
         mList = new ArrayList<>();
@@ -266,6 +274,11 @@ public class PoleIdFragment extends Fragment {
         btnConfirmPoleId.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Bundle bundle=new Bundle();
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, event_name + "PoleIDSave");
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+                Log.d(AppConstants.TAG, event_name+"PoleIDSave");
+
                 if (cbNone.isChecked())
                     confirm();
                 else {

@@ -106,6 +106,7 @@ public class SecurityCode extends AppCompatActivity {
         objApi = new SLCScanner().networkCall();
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        mFirebaseAnalytics.setCurrentScreen(this, "SecurityCodeUI", null);
 
         Util.hideKeyboard(SecurityCode.this);
         //Util.showKeyobard(SecurityCode.this);

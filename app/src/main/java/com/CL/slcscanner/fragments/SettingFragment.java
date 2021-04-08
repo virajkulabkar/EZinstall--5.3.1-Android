@@ -47,6 +47,7 @@ import com.CL.slcscanner.Utils.AppConstants;
 import com.CL.slcscanner.Utils.DBHelper;
 import com.CL.slcscanner.Utils.MyCallbackForMapType;
 import com.CL.slcscanner.Utils.Util;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.suke.widget.SwitchButton;
 
 import java.util.ArrayList;
@@ -132,6 +133,9 @@ public class SettingFragment extends Fragment implements MyCallbackForMapType {
 
     boolean isManualPoleDetail = false;
 
+    private FirebaseAnalytics mFirebaseAnalytics;
+    String event_name;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -168,6 +172,9 @@ public class SettingFragment extends Fragment implements MyCallbackForMapType {
             }
         });
 
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
+        event_name = spf.getString(AppConstants.CLIENT_ID, null) + "_" + spf.getString(AppConstants.USER_ID, null) + "_";
+        mFirebaseAnalytics.setCurrentScreen(getActivity(), "SettingUi", null);
         dialog = new ProgressDialog(getActivity());
         dialog.setMessage(getResources().getString(R.string.loading));
         dialog.setCancelable(false);
@@ -231,48 +238,70 @@ public class SettingFragment extends Fragment implements MyCallbackForMapType {
         segmentMeasurementUnits.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+                Bundle bundle=new Bundle();
                 int selectedId = segmentMeasurementUnits.getCheckedRadioButtonId();
 
                 if (selectedId == R.id.btnEnglish) {
+                    bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, event_name + "SettingUnitEnglish");
                     Log.i(AppConstants.TAG, "English :checked");
+                    Log.d(AppConstants.TAG, event_name+"SettingUnitEnglish");
                     spf.edit().putString(AppConstants.SPF_UNITS, AppConstants.SPF_UNITES_ENGLISH).apply();
                     //((MainActivity) getActivity()).settingAPICall();
                 } else {
+                    bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, event_name + "SettingUnitMetric");
                     Log.i(AppConstants.TAG, "Matric :checked");
+                    Log.d(AppConstants.TAG, event_name+"SettingUnitMetric");
                     spf.edit().putString(AppConstants.SPF_UNITS, AppConstants.SPF_UNITES_MATRIC).apply();
                     //((MainActivity) getActivity()).settingAPICall();
                 }
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
             }
         });
 
         sbCapturePoleID.setOnCheckedChangeListener(new SwitchButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(SwitchButton view, boolean isChecked) {
+                Bundle bundle=new Bundle();
                 Log.i(AppConstants.TAG, "pole id :checked");
                 if (isChecked) {
+                    bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, event_name + "SettingCapturePoleIdOn");
                     spf.edit().putBoolean(AppConstants.SPF_POLE_ID_VISIBILITY, true).apply();
                     Log.i(AppConstants.TAG, "pole id :checked true");
                     Util.addLog("pole id :checked");
+                    Log.d(AppConstants.TAG, event_name+"SettingCapturePoleIdOn");
                 } else {
+                    bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, event_name + "SettingCapturePoleIdOff");
                     spf.edit().putBoolean(AppConstants.SPF_POLE_ID_VISIBILITY, false).apply(); // make it false...this is temporary
                     Log.i(AppConstants.TAG, "pole id :checked false");
                     Util.addLog("pole id :unchecked");
+                    Log.d(AppConstants.TAG, event_name+"SettingCapturePoleIdOff");
                 }
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
             }
         });
 
         sbOtherData.setOnCheckedChangeListener(new SwitchButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(SwitchButton view, boolean isChecked) {
+                Bundle bundle=new Bundle();
+
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+                Log.d(AppConstants.TAG, event_name+"OtherData");
                 isManualPoleDetail = true;
+
                 if (isChecked) {
+                    bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, event_name + "SettingPoleDetailsOn");
                     spf.edit().putBoolean(AppConstants.SPF_OTHER_DATA_VISIBILITY, true).apply();
                     Log.i(AppConstants.TAG, "other data :checked true");
                     Util.addLog("pole data :checked");
+                    Log.d(AppConstants.TAG, event_name+"SettingPoleDetailsOn");
                 } else {
+                    bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, event_name + "SettingPoleDetailsOn");
                     spf.edit().putBoolean(AppConstants.SPF_OTHER_DATA_VISIBILITY, false).apply(); // make it false...this is temporary
                     Log.i(AppConstants.TAG, "other data :checked false");
                     Util.addLog("pole data :unchecked");
+                    Log.d(AppConstants.TAG, event_name+"SettingPoleDetailsOn");
                 }
             }
         });
@@ -286,6 +315,12 @@ public class SettingFragment extends Fragment implements MyCallbackForMapType {
         llMapSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Bundle bundle=new Bundle();
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, event_name + "SettingMapType");
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+                Log.d(AppConstants.TAG, event_name+"SettingMapType");
+
                 ShowDialog(mList, getResources().getString(R.string.select_map_type), true);
             }
         });
@@ -294,6 +329,13 @@ public class SettingFragment extends Fragment implements MyCallbackForMapType {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+
+                        Bundle bundle=new Bundle();
+                        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, event_name + "SettingLanguage");
+                        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+                        Log.d(AppConstants.TAG, event_name+"SettingLanguage");
+
+
                         ShowDialog(mLangList, getResources().getString(R.string.select_lang), false);
                     }
                 }
@@ -456,6 +498,7 @@ public class SettingFragment extends Fragment implements MyCallbackForMapType {
 
     void setMapType() {
 
+
         MapTypePojo obj1 = new MapTypePojo();
         obj1.setKeyLable(getString(R.string.key_google_map_standard));
         obj1.setValue(getString(R.string.google_map_standard));
@@ -508,6 +551,7 @@ public class SettingFragment extends Fragment implements MyCallbackForMapType {
     }
 
     void setLangType() {
+
         MapTypePojo obj1 = new MapTypePojo();
         obj1.setKeyLable(getString(R.string.key_english));
         obj1.setValue(getString(R.string.key_english));
@@ -702,6 +746,8 @@ public class SettingFragment extends Fragment implements MyCallbackForMapType {
     }
 
     void dialog() {
+
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage(getResources().getString(R.string.do_you_want_to_logout))
                 .setCancelable(true)
@@ -709,6 +755,11 @@ public class SettingFragment extends Fragment implements MyCallbackForMapType {
                 .setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        Bundle bundle=new Bundle();
+                        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, event_name + "SettingLogout");
+                        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+                        Log.d(AppConstants.TAG, event_name+"SettingLogout");
+
                         mDatabase.deleteTableData(DBHelper.SLC_TABLE_NAME);
                         spf.edit().clear().apply();
                         getActivity().finish();
