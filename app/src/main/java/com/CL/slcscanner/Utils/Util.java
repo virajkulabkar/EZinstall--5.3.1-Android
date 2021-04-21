@@ -767,6 +767,47 @@ public class Util {
         //imageUri = Uri.fromFile(imageFile);
     }
 
+    public static void storeImageToStorage(Context context,Bitmap bitmap) {
+
+        //File root = Environment.getExternalStorageDirectory();
+
+        File folder = new File(String.valueOf(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)));
+        folder.mkdirs();
+
+        File file = new File(folder, System.currentTimeMillis()+".jpg");
+
+        try {
+            file.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        /*File root= new File(context.getFilesDir() + "/SLCScanner");
+        if (root.canWrite()) {
+            File dir = new File(root + "/SLCScanner");
+            if (!dir.exists())
+                dir.mkdir();
+        }*/
+
+        //File filesDir = Environment.getExternalStorageDirectory();
+        //File imageFile = new File(filesDir, "/SLCScanner/" + name + ".jpg");
+
+        ByteArrayOutputStream bos;
+        try {
+            bos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 50, bos);
+            byte[] bytes = bos.toByteArray();
+
+            FileOutputStream fos = new FileOutputStream(file);
+            fos.write(bytes);
+            fos.flush();
+            fos.close();
+        } catch (Exception e) {
+            Log.e("ERROR", "Error writing bitmap", e);
+        }
+        //imageUri = Uri.fromFile(imageFile);
+    }
+
     public static RequestBody getRequestBody(String value) {
         return RequestBody.create(MediaType.parse("text/plain"), value);
 

@@ -481,6 +481,7 @@ public class CameraPreviewFragment extends Fragment implements View.OnClickListe
             bitmap = Util.decodeSampledBitmap(getActivity(), data.getData(), filePath);
             //storeImage1(bitmap, getResources().getString(R.string.preview));
             storeImage2(getActivity(),bitmap);
+            objUtil.storeImageToStorage(getActivity(),bitmap);
             ivCameraPreview.setImageBitmap(bitmap);
             isClickable = true;
 
@@ -489,6 +490,7 @@ public class CameraPreviewFragment extends Fragment implements View.OnClickListe
         }
 
     }
+
 
     private void onCaptureImageResult(Intent data) {
         Bitmap bitmap = null;
@@ -500,7 +502,7 @@ public class CameraPreviewFragment extends Fragment implements View.OnClickListe
             bitmap = Util.decodeSampledBitmap(getActivity(), objUri, filePath);
             //storeImage1(bitmap, getResources().getString(R.string.preview));
             storeImage2(getActivity(),bitmap);
-
+            objUtil.storeImageToStorage(getActivity(),bitmap);
             ivCameraPreview.setImageBitmap(bitmap);
             isClickable = true;
 
