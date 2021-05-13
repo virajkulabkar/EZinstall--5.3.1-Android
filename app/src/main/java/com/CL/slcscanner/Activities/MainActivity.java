@@ -745,6 +745,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onBackPressed() {
 
+        if (Util.isFromSetting == true) {
+            finish();
+            startActivity(getIntent());
+            Util.isFromSetting = false;
+        }
         new AlertDialog.Builder(this)
                 .setTitle(getResources().getString(R.string.back_press_title_dialog))
                 .setMessage(getResources().getString(R.string.back_press_msg_dialog))

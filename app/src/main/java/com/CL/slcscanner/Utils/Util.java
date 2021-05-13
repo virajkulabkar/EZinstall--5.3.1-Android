@@ -10,6 +10,7 @@ import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -41,6 +42,7 @@ import android.provider.MediaStore;
 import androidx.annotation.DrawableRes;
 import androidx.core.app.ActivityCompat;
 
+import android.provider.Settings;
 import android.text.Html;
 import android.text.InputFilter;
 import android.text.Spanned;
@@ -92,6 +94,7 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.reflect.Type;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -172,7 +175,7 @@ public class Util {
                                 } catch (Exception e) {
 
                                 }
-                               dialogInterface.dismiss();
+                                dialogInterface.dismiss();
                             }
                         });
                 //Creating dialog box
@@ -231,6 +234,7 @@ public class Util {
         }
     }
 
+    public static boolean isFromSetting = false;
     public static void dialogForPermisionMessage(final Context context, String message) {
 
         if (context != null) {
@@ -238,16 +242,32 @@ public class Util {
             builder.setTitle("Permission Require");
             builder.setMessage(message)
                     .setCancelable(false)
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            dialogInterface.dismiss();
-                            try {
-                                //context.startActivity(new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + BuildConfig.APPLICATION_ID)));
-                            } catch (Exception e) {
-                                Util.addLog("Permission Setting Activity face issue: " + e.getMessage());
-                            }
+                    .setPositiveButton("Settings", (dialogInterface, i) -> {
+                        dialogInterface.dismiss();
+                        try {
+                            isFromSetting=true;
+
+                            Intent intent = new Intent();
+                            intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+
+                            Uri uri = Uri.fromParts(
+                                    "package",
+                                    context.getPackageName(),
+                                    null
+                            );
+                            intent.addCategory(Intent.CATEGORY_DEFAULT);
+                            intent.setData(uri);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+                            context.startActivity(intent);
+
+                            //context.startActivity(new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS,  Uri.parse("package:" +context.getPackageName())));
+                        } catch (Exception e) {
+                            Util.addLog("Permission Setting Activity face issue: " + e.getMessage());
                         }
+                    }). setNegativeButton("Cancel", (dialog, which) -> {
+                dialog.dismiss();
                     });
             //Creating dialog box
             AlertDialog alert = builder.create();
@@ -723,9 +743,11 @@ public class Util {
     }
 
 
-    public static void storeImage2(Context context,Bitmap bitmap) {
+    public static void storeImage2(Context context, Bitmap bitmap) {
 
         //File root = Environment.getExternalStorageDirectory();
+        //Store file at internal storage
+        storeImageToStorage(context,bitmap);
 
         File folder = new File(String.valueOf(context.getExternalFilesDir(Environment.DIRECTORY_DCIM)));
         folder.mkdirs();
@@ -765,45 +787,64 @@ public class Util {
             Log.e("ERROR", "Error writing bitmap", e);
         }
         //imageUri = Uri.fromFile(imageFile);
+
+
     }
 
-    public static void storeImageToStorage(Context context,Bitmap bitmap) {
+    public static void storeImageToStorage(Context context, Bitmap bitmap) {
 
         //File root = Environment.getExternalStorageDirectory();
+        String fileName = System.currentTimeMillis() + ".jpg";
 
-        File folder = new File(String.valueOf(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)));
-        folder.mkdirs();
+        FileOutputStream fos = null;
 
-        File file = new File(folder, System.currentTimeMillis()+".jpg");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            ContentResolver contentResolver = context.getContentResolver();
+            if (contentResolver != null) {
+                ContentValues contentValues = new ContentValues();
+                contentValues.put("_display_name", fileName);
+                contentValues.put("mime_type", "image/jpg");
+                contentValues.put("relative_path", Environment.DIRECTORY_PICTURES);
+                Uri imageUri = contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
 
-        try {
-            file.createNewFile();
-        } catch (IOException e) {
-            e.printStackTrace();
+                OutputStream os = null;
+                if (imageUri != null) {
+                    try {
+                        os = contentResolver.openOutputStream(imageUri);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                }
+                fos = (FileOutputStream) os;
+            }
+
+        } else {
+            File folder = new File(String.valueOf(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)));
+            folder.mkdirs();
+
+            File file = new File(folder, fileName);
+
+            try {
+                file.createNewFile();
+                fos = new FileOutputStream(file);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
-        /*File root= new File(context.getFilesDir() + "/SLCScanner");
-        if (root.canWrite()) {
-            File dir = new File(root + "/SLCScanner");
-            if (!dir.exists())
-                dir.mkdir();
-        }*/
+        if(fos!=null) {
+            ByteArrayOutputStream bos;
+            try {
+                bos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 50, bos);
+                byte[] bytes = bos.toByteArray();
 
-        //File filesDir = Environment.getExternalStorageDirectory();
-        //File imageFile = new File(filesDir, "/SLCScanner/" + name + ".jpg");
-
-        ByteArrayOutputStream bos;
-        try {
-            bos = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 50, bos);
-            byte[] bytes = bos.toByteArray();
-
-            FileOutputStream fos = new FileOutputStream(file);
-            fos.write(bytes);
-            fos.flush();
-            fos.close();
-        } catch (Exception e) {
-            Log.e("ERROR", "Error writing bitmap", e);
+                fos.write(bytes);
+                fos.flush();
+                fos.close();
+            } catch (Exception e) {
+                Log.e("ERROR", "Error writing bitmap", e);
+            }
         }
         //imageUri = Uri.fromFile(imageFile);
     }

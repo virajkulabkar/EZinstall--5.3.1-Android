@@ -74,6 +74,7 @@ import static com.CL.slcscanner.Utils.Util.getRequestBody;
 import static com.CL.slcscanner.Utils.Util.storeImage;
 import static com.CL.slcscanner.Utils.Util.storeImage1;
 import static com.CL.slcscanner.Utils.Util.storeImage2;
+import static com.CL.slcscanner.Utils.Util.storeImageToStorage;
 
 /**
  * Created by vrajesh on 6/8/2018.
@@ -481,7 +482,7 @@ public class CameraPreviewFragment extends Fragment implements View.OnClickListe
             bitmap = Util.decodeSampledBitmap(getActivity(), data.getData(), filePath);
             //storeImage1(bitmap, getResources().getString(R.string.preview));
             storeImage2(getActivity(),bitmap);
-            objUtil.storeImageToStorage(getActivity(),bitmap);
+
             ivCameraPreview.setImageBitmap(bitmap);
             isClickable = true;
 
@@ -502,7 +503,6 @@ public class CameraPreviewFragment extends Fragment implements View.OnClickListe
             bitmap = Util.decodeSampledBitmap(getActivity(), objUri, filePath);
             //storeImage1(bitmap, getResources().getString(R.string.preview));
             storeImage2(getActivity(),bitmap);
-            objUtil.storeImageToStorage(getActivity(),bitmap);
             ivCameraPreview.setImageBitmap(bitmap);
             isClickable = true;
 

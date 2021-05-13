@@ -801,11 +801,16 @@ public class LoginActivity extends AppCompatActivity implements FingerprintHandl
     @Override
     protected void onResume() {
         super.onResume();
-        /*if (GPSTracker.isFromSetting == true) {
+      /*  if (GPSTracker.isFromSetting == true) {
             finish();
             startActivity(getIntent());
             GPSTracker.isFromSetting = false;
         }*/
+        if (Util.isFromSetting == true) {
+            finish();
+            startActivity(getIntent());
+            Util.isFromSetting = false;
+        }
         // Util.LocaleCheck(spf,LoginActivity.this);
     }
 
@@ -817,6 +822,14 @@ public class LoginActivity extends AppCompatActivity implements FingerprintHandl
             startActivity(getIntent());
             GPSTracker.isFromSetting = false;
         }*/
+        if (Util.isFromSetting == true) {
+            finish();
+            startActivity(getIntent());
+            Util.isFromSetting = false;
+        } else {
+            startActivity(new Intent(LoginActivity.this, SecurityCode.class));
+            finish();
+        }
     }
 
 
